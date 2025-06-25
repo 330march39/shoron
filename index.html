@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ステップ小論ラボ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F7F7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            flex-grow: 1;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .header-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .main-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .sub-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #666666;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        .info-button {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #E6F0FF;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #C4DAFC;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+        .info-button:hover {
+            background-color: #D8E6FF;
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .info-button svg {
+            color: #5B86E5;
+            width: 20px;
+            height: 20px;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+        .essay-input-section {
+            background-color: #f0f4f8;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #c4dafc;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #334155;
+            position: relative;
+        }
+        .essay-input-header {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 2px solid #D1DBE5;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            line-height: 1.5;
+        }
+        textarea:focus {
+            border-color: #5B86E5;
+            box-shadow: 0 0 0 4px rgba(91, 134, 229, 0.3);
+        }
+        button#gradeButton {
+            background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
+            color: #ffffff;
+            padding: 16px 35px;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            border: none;
+            box-shadow: 0 8px 20px rgba(91, 134, 229, 0.5);
+            letter-spacing: 0.04em;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        button#gradeButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            z-index: -1;
+        }
+        button#gradeButton:hover::before {
+            left: 100%;
+        }
+        button#gradeButton:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 12px 30px rgba(65, 105, 225, 0.7);
+        }
+        button#gradeButton:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(91, 134, 229, 0.4);
+            background: linear-gradient(135deg, #4169E1 0%, #5B86E5 100%);
+        }
+        button#gradeButton svg {
+            width: 25px;
+            height: 25px;
+        }
+
+        /* Settings button style */
+        button#settingsButton {
+            background-color: #A0D0F5;
+            color: #2C5282;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            border: none;
+            box-shadow: 0 3px 8px rgba(160, 208, 245, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        button#settingsButton:hover {
+            background-color: #8BC9F0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(160, 208, 245, 0.6);
+        }
+        button#settingsButton:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(160, 208, 245, 0.3);
+        }
+        button#settingsButton svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .separator {
+            border-top: 1px solid #e0e0e0;
+            margin: 30px 0;
+            opacity: 0.7;
+        }
+
+        .grade-scale-visual-container {
+            border: 1px solid #C4DAFC;
+            border-radius: 12px;
+            padding: 15px 10px;
+            background-color: #E6F0FF;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grade-scale-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .grade-scale-visual .scale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4A5568;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0 5px;
+        }
+        .grade-scale-visual .scale-header .label {
+            font-size: 1.1em;
+            z-index: 1;
+            background-color: #E6F0FF;
+            padding: 0 5px;
+        }
+        .grade-scale-visual .scale-header .arrow-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #5B86E5;
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        .grade-scale-visual .scale-header .arrow {
+            display: none;
+        }
+
+        .grade-scale-visual .grade-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .grade-scale-visual .grade-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .grade-scale-visual span.grade-box {
+            padding: 2px 6px;
+            border-radius: 6px;
+            background-color: #FFFFFF;
+            border: 1px solid #C4DAFC;
+            flex-shrink: 0;
+            font-size: 0.9em;
+            color: #333333;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .grade-scale-visual .arrow {
+            display: none;
+        }
+
+
+        .overall-grade-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .detailed-grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .grade-item {
+            background: linear-gradient(135deg, #E6F0FF 0%, #D8E6FF 100%);
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #C4DAFC;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .grade-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+            transition: transform 0.3s ease;
+            transform: scale(0);
+            border-radius: 50%;
+        }
+        .grade-item:hover::before {
+            transform: scale(2);
+        }
+        .grade-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.09);
+        }
+        .grade-label {
+            font-size: 0.8rem;
+            color: #4A5568;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+        .grade-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #333333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .overall-grade-item {
+            min-width: 180px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
+            color: #ffffff;
+            box-shadow: 0 7px 20px rgba(91, 134, 229, 0.4);
+        }
+        .overall-grade-item .grade-label {
+            color: #e0e0e0;
+        }
+        .overall-grade-item .grade-value {
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+        }
+        .show-details-button {
+            display: none;
+        }
+        .model-answer-section {
+            display: none;
+        }
+        .feedback-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 18px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .feedback-section:hover {
+             box-shadow: 0 7px 18px rgba(0, 0, 0, 0.08);
+        }
+        .feedback-section h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #E6F0FF;
+            padding-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+        /* Restore original checkmark color */
+        .feedback-section h3 svg {
+            margin-right: 8px;
+            color: #5B86E5; /* Blue */
+            width: 20px;
+            height: 20px;
+        }
+        /* Yellow icon for Attention section */
+        #attentionSection h3 svg {
+            color: #facc15; /* Tailwind yellow-400 */
+        }
+
+        .feedback-section .section-grade {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #5B86E5;
+            margin-left: 8px;
+            background-color: #E6F0FF;
+            padding: 2px 8px;
+            border-radius: 8px;
+            border: 1px solid #C4DAFC;
+        }
+        .feedback-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #4A5568;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 0.6em;
+        }
+        .feedback-section p strong {
+            margin-left: 0.5em;
+        }
+        .grammar-feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .grammar-feedback-table th, .grammar-feedback-table td {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+        .grammar-feedback-table th {
+            background-color: #F0F4F8;
+            color: #4A5568;
+            font-weight: 600;
+            white-space: nowrap;
+            width: 25%;
+        }
+        .grammar-feedback-table td {
+            background-color: #FFFFFF;
+            color: #333333;
+        }
+        .grammar-feedback-table ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .grammar-feedback-table li {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 5px;
+        }
+        .grammar-feedback-table li::before {
+            content: '•';
+            color: #5B86E5;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .grammar-feedback-table li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Overall results summary layout */
+        .overall-results-summary {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        .results-fade-in {
+            animation: fadeInScale 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Loading and error messages */
+        .loading-indicator {
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            color: #5B86E5;
+            font-weight: 600;
+            animation: pulse 1.5s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+        }
+        .loading-indicator svg {
+            margin-right: 10px;
+            color: #4169E1;
+            width: 18px;
+            height: 18px;
+        }
+        .error-message {
+            text-align: center;
+            padding: 18px;
+            font-size: 0.95rem;
+            color: #EF4444;
+            font-weight: 500;
+            background-color: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            height: auto;
+            max-height: 95vh;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+            animation: fadeInScale 0.4s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .modal-content h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 15px;
+        }
+        .modal-content p {
+            font-size: 0.85rem;
+            color: #4A5568;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .terms-box {
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 0.8rem;
+            color: #666666;
+            line-height: 1.4;
+            margin-bottom: 18px;
+        }
+        .modal-button {
+            background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            border: none;
+            box-shadow: 0 5px 15px rgba(91, 134, 229, 0.4);
+            margin-top: auto;
+        }
+        .modal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(65, 105, 225, 0.5);
+        }
+        .modal-button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(91, 134, 229, 0.3);
+        }
+
+        /* Settings Modal specific styles */
+        .settings-modal-content {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            max-width: 650px;
+            width: 90%;
+            height: auto; /* Allow content to dictate height */
+            max-height: 95vh; /* Max height for modal */
+            overflow-y: auto; /* Allow internal scrolling if content is too tall */
+            text-align: left;
+            position: relative;
+            animation: fadeInScale 0.4s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .settings-modal-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .settings-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .settings-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #5B86E5;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #4A5568;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .checkbox-item:hover {
+            color: #5B86E5;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 6px;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #5B86E5;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+        .checkbox-item input[type="checkbox"]:checked {
+            background-color: #5B86E5;
+            border-color: #5B86E5;
+        }
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 1.5px 1.5px 0;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        .settings-textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #D1DBE5;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+        .settings-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .settings-input-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4A5568;
+        }
+        /* Word count type specific inputs */
+        .word-count-input-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .word-count-input-container input[type="number"] {
+            width: 80px; /* Smaller width for number inputs */
+            padding: 8px;
+            border: 1px solid #D1DBE5;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .word-count-input-container span {
+            font-size: 0.9rem;
+            color: #4A5568;
+        }
+
+
+        .quick-prompt-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .quick-prompt-button {
+            background-color: #E6F0FF;
+            color: #4169E1;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #C4DAFC;
+        }
+        .quick-prompt-button:hover {
+            background-color: #D8E6FF;
+            transform: translateY(-1px);
+        }
+        .quick-prompt-button:active {
+            transform: translateY(0);
+        }
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+            flex-shrink: 0;
+        }
+        .settings-apply-button {
+            background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            border: none;
+            box-shadow: 0 4px 12px rgba(91, 134, 229, 0.4);
+        }
+        .settings-apply-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(65, 105, 225, 0.5);
+        }
+        .settings-apply-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        .settings-cancel-button {
+            background-color: #CBD5E1;
+            color: #4A5568;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .settings-cancel-button:hover {
+            background-color: #A0B3C8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .settings-cancel-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        footer.footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            padding-bottom: 10px;
+        }
+        footer.footer p {
+            margin-bottom: 5px;
+        }
+
+        /* Attention tag box styling */
+        .attention-item-box {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            margin: 4px;
+            border-radius: 8px;
+            background-color: #FFFAE6; /* Light yellow background */
+            border: 1px solid #FFEDCC; /* Slightly darker yellow border */
+            color: #CC8A00; /* Darker yellow text */
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: help;
+            position: relative; /* For popup positioning */
+            white-space: nowrap;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .attention-item-box:hover {
+            background-color: #FFF5CC;
+            border-color: #FFDDAA;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+
+        /* Popup for attention items */
+        .attention-popup {
+            position: fixed; /* Use fixed for robust positioning against screen edges */
+            background-color: #333333;
+            color: #ffffff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            white-space: normal;
+            width: 250px; /* Fixed width for popup */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            z-index: 10000; /* High z-index to be on top */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            /* Removed max-height and overflow-y */
+        }
+        /* Arrow styles for popup */
+        .attention-popup .popup-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        /* Arrow pointing down (when popup is above the element) */
+        .attention-popup.arrow-down .popup-arrow {
+            bottom: -8px; /* Position below popup content */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0 8px; /* Up-pointing triangle base on bottom */
+            border-color: #333333 transparent transparent transparent;
+        }
+        /* Arrow pointing up (when popup is below the element) */
+        .attention-popup.arrow-up .popup-arrow {
+            top: -8px; /* Position above popup content */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 8px 8px 8px; /* Down-pointing triangle base on top */
+            border-color: transparent transparent #333333 transparent;
+        }
+
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            body { padding: 8px; }
+            .container { padding: 12px; margin-top: 8px; }
+            .header-section { margin-bottom: 20px; }
+            .main-title { font-size: 1.8rem; }
+            .sub-title { font-size: 1rem; }
+            .info-button { width: 30px; height: 30px; }
+            .info-button svg { width: 16px; height: 16px; }
+            p { font-size: 0.85rem; margin-bottom: 15px; }
+            .essay-input-section { padding: 12px; }
+            .essay-input-header { font-size: 0.95rem; }
+            textarea { height: 180px; font-size: 0.85rem; padding: 10px; }
+            .button-group { flex-direction: column; align-items: center; gap: 12px; margin-bottom: 20px; }
+            button#gradeButton { font-size: 1.2rem; padding: 12px 25px; gap: 8px; width: 100%; max-width: 280px; }
+            button#gradeButton svg { width: 20px; height: 20px; }
+            button#settingsButton { font-size: 0.8rem; padding: 8px 15px; gap: 5px; width: 100%; max-width: 180px; }
+            button#settingsButton svg { width: 16px; height: 16px; }
+            .separator { margin: 20px 0; }
+            .grade-scale-visual-container { padding: 10px 5px; margin-bottom: 20px; max-width: 100%; }
+            .grade-scale-visual { font-size: 0.85rem; }
+            .grade-scale-visual .scale-header { max-width: 100%; font-size: 0.9em; }
+            .grade-scale-visual .grade-row { max-width: 100%; justify-content: space-between; padding: 5px 0; }
+            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; }
+            .overall-grade-item { min-width: unset; width: 80%; max-width: 220px; padding: 15px 12px; margin-left: auto; margin-right: auto; }
+            .overall-grade-item .grade-value { font-size: 2.2rem; }
+            .detailed-grades-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
+            .grade-item { padding: 8px 5px; }
+            .grade-label { font-size: 0.7rem; }
+            .grade-value { font-size: 1.3rem; }
+            .feedback-section { padding: 15px; margin-bottom: 15px; }
+            .feedback-section h3 { font-size: 1rem; }
+            .feedback-section h3 svg { width: 18px; height: 18px; }
+            .feedback-section .section-grade { font-size: 0.8rem; padding: 1px 6px; }
+            .feedback-section p { font-size: 0.8rem; }
+            .grammar-feedback-table th, .grammar-feedback-table td { padding: 6px 8px; font-size: 0.75rem; }
+            .grammar-feedback-table th { width: 30%; }
+            .overall-results-summary { gap: 20px; }
+            .modal-content, .settings-modal-content { padding: 15px; width: 95%; max-height: 95vh; }
+            .modal-content h2, .settings-modal-content h2 { font-size: 1.2rem; }
+            .modal-content p { font-size: 0.75rem; }
+            .terms-box { max-height: 250px; font-size: 0.75rem; }
+            .modal-button, .settings-apply-button, .settings-cancel-button { font-size: 0.9rem; padding: 10px 18px; }
+            .settings-section h3 { font-size: 1rem; }
+            .checkbox-item, .quick-prompt-button { font-size: 0.8rem; }
+            .settings-textarea { font-size: 0.8rem; height: 80px; }
+            .quick-prompt-buttons { gap: 6px; }
+            footer.footer { padding-top: 15px; }
+        }
+        @media (max-width: 480px) {
+            .detailed-grades-grid { grid-template-columns: 1fr; }
+            .overall-grade-item { width: 90%; }
+            .japanese-sentence-note { font-size: 0.7rem; }
+            .terms-box { max-height: 300px; }
+            .attention-popup { width: 200px; font-size: 0.75rem; padding: 10px; }
+            .attention-item-box { font-size: 0.75rem; padding: 3px 8px; margin: 3px; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container">
+        <div class="header-section">
+            <div>
+                <h1 class="main-title">ステップ小論ラボ</h1>
+                <p class="sub-title">AI小論文添削サービス</p>
+            </div>
+            <button id="headerInfoButton" class="info-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <p class="text-gray-600 text-center mb-8">
+            ここに小論文を入力して、「AI添削する」ボタンを押すと、AIが詳細なフィードバックと採点を提供します。<br>感想文や志望理由書なども添削することができます。
+        </p>
+
+        <div class="essay-input-section">
+            <p class="essay-input-header">あなたの小論文を入力してください</p>
+            <textarea id="essayInput" placeholder="ここに小論文を入力してください..." class="mb-2"></textarea>
+            <div id="charCount" class="text-right text-sm text-gray-500 mb-4">文字数: 0</div>
+        </div>
+
+        <div class="flex justify-center items-center flex-wrap gap-4 mb-8 button-group">
+            <button id="gradeButton">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                AI添削する
+            </button>
+            <button id="settingsButton">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.942 3.33.83 2.227 2.227a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.942 1.543-.83 3.33-2.227 2.227a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.942-3.33-.83-2.227-2.227a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.942-1.543.83-3.33 2.227-2.227a1.724 1.724 0 002.573-1.066z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                詳細設定
+            </button>
+        </div>
+
+        <div class="separator"></div>
+
+        <div id="results" class="hidden">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5 text-center">添削結果</h2>
+
+            <div class="grade-scale-visual-container">
+                <div class="grade-scale-visual">
+                    <div class="scale-header">
+                        <span class="label">GOOD</span>
+                        <span class="arrow-line"></span>
+                        <span class="label">BAD</span>
+                    </div>
+                    <div class="grade-row">
+                        <span class="grade-box">A+</span>
+                        <span class="grade-box">A</span>
+                        <span class="grade-box">B</span>
+                        <span class="grade-box">C</span>
+                        <span class="grade-box">D</span>
+                        <span class="grade-box">E</span>
+                        <span class="grade-box">F</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overall-results-summary">
+                <div class="overall-grade-container" id="overallGradeArea">
+                </div>
+            </div>
+
+            <div id="overallFeedbackSection" class="feedback-section hidden">
+                </div>
+
+            <div id="attentionSection" class="feedback-section hidden bg-yellow-50 border-yellow-200 text-yellow-800">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    注意
+                </h3>
+                <div id="attentionList" class="flex flex-wrap justify-start items-center">
+                    </div>
+            </div>
+
+            <div class="text-xl font-semibold text-gray-700 mb-5 text-center" style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 20px;">詳細な講評</div>
+
+            <div class="detailed-grades-grid" id="detailedGradeArea">
+                </div>
+
+            <div id="remainingFeedbackArea">
+                </div>
+        </div>
+
+        <div id="loading" class="hidden loading-indicator">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            添削中...少々お待ちください。
+        </div>
+        <div id="error" class="hidden error-message">
+            エラーが発生しました。もう一度お試しください。
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>AIは不正確な情報を表示することがあるため、生成された回答を再確認するようにしてください。</p>
+        <p>&copy;2020-2025 teamENO</p>
+    </footer>
+
+    <div id="disclaimerModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>ご利用にあたっての注意事項</h2>
+            <p>このサービスはAI（人工知能）を利用して日本語文章の添削を行っています。</p>
+            <p>Google社のGemini APIを利用しています。</p>
+            <p>AIによる添削結果には、誤った情報が含まれる可能性があり、その正確性を保証するものではありません。</p>
+            <p>当サービスのご利用により生じた、いかなる損害についても、当方は一切の責任を負いません。</p>
+            <p>添削結果はあくまで参考としてご利用ください。</p>
+
+            <div class="terms-box">
+                <h3>利用規約</h3>
+                <p>
+                    <strong>第1条（本サービスの目的）</strong><br>
+                    本サービス「ステップ小論ラボ」は、ユーザーが入力した日本語文章に対してAIによる添削とフィードバックを提供することを目的とします。本サービスは学習補助ツールであり、専門家による添削を代替するものではありません。
+                </p>
+                <p>
+                    <strong>第2条（免責事項）</strong><br>
+                    1. 本サービスが提供するAI添削結果は、入力された文章に基づきAIが生成したものであり、その内容の正確性、完全性、信頼性、有用性、特定の目的への適合性について、いかなる保証も行いません。<br>
+                    2. AIの特性上、添削結果に誤り、不適切な表現、またはユーザーの意図と異なる内容が含まれる可能性があります。ユーザーはこれを理解し、自身の判断と責任において本サービスを利用するものとします。<br>
+                    3. 本サービスのご利用により生じた、いかなる損害についても、当方は一切の責任を負いません。ユーザーは、本サービスを利用したことにより第三者との間で紛争が生じた場合、自己の責任と費用においてこれを解決するものとします。<br>
+                    4. 本サービスは、システムの障害、通信環境の悪化、メンテナンス等により、事前の通知なく一時的に中断または停止されることがあります。これによりユーザーに生じた損害についても、当方は責任を負いません。
+                </p>
+                <p>
+                    <strong>第3条（禁止事項）</strong><br>
+                    ユーザーは、本サービスの利用にあたり、以下の行為を行ってはならないものとします。<br>
+                    1. 法令または公序良俗に違反する行為<br>
+                    2. 他のユーザーまたは第三者の著作権、商標権等の知的財産権、プライバシー権、肖像権その他の権利を侵害する行為、または侵害するおそれのある行為<br>
+                    3. 他のユーザーまたは第三者を誹謗中傷する行為、または名誉・信用を毀損する行為<br>
+                    4. 犯罪行為またはこれを助長する行為<br>
+                    5. 本サービスの運営を妨害する行為<br>
+                    6. その他、当方が不適切と判断する行為
+                </p>
+                <p>
+                    <strong>第4条（個人情報の取扱い）</strong><br>
+                    当方は、本サービスを通じて取得したユーザーの個人情報を、別途定めるプライバシーポリシーに基づき、適切に取り扱います。
+                </p>
+                <p>
+                    <strong>第5条（利用規約の変更）</strong><br>
+                    当方は、ユーザーに事前の通知をすることなく、本規約の全部または一部を変更できるものとします。変更後の規約は、本ウェブサイトに掲載された時点から効力を生じるものとします。
+                </p>
+                <p>
+                    <strong>第6条（準拠法および管轄裁判所）</strong><br>
+                    本規約の解釈にあたっては、日本法を準拠法とします。本サービスに関して紛争が生じた場合には、当方の本店所在地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。
+                </p>
+            </div>
+            <button id="agreeButton" class="modal-button">上記の内容に同意する</button>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal-overlay hidden">
+        <div class="settings-modal-content">
+            <h2>詳細設定</h2>
+
+            <div class="settings-section">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>文字数指定</h3>
+                <div class="settings-input-group">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="wordCountOption" value="none" class="form-radio text-blue-600" checked>
+                            <span class="ml-2 text-gray-700">なし</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="wordCountOption" value="about" class="form-radio text-blue-600">
+                            <span class="ml-2 text-gray-700">程度</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="wordCountOption" value="range" class="form-radio text-blue-600">
+                            <span class="ml-2 text-gray-700">以上・以下</span>
+                        </label>
+                    </div>
+
+                    <div id="wordCountInputContainer" class="flex flex-col gap-4">
+                        <div id="aboutInputGroup" class="word-count-input-container hidden">
+                            <input type="number" id="designatedWordCountAbout" placeholder="800" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <span>程度</span>
+                        </div>
+                        <div id="rangeInputGroup" class="flex items-center gap-2 hidden">
+                            <input type="number" id="designatedWordCountMin" placeholder="400" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <span>以上</span>
+                            <input type="number" id="designatedWordCountMax" placeholder="800" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <span>以下</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>問題文</h3>
+                <div class="settings-input-group">
+                    <textarea id="questionTextInput" class="settings-textarea" placeholder="ここに問題文を入力してください（例: 環境問題についてあなたの意見を述べなさい。）"></textarea>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>AIに指示する（プロンプト）</h3>
+                <textarea id="customPromptInput" class="settings-textarea" placeholder="AIへの追加指示を入力してください（例：○○大学の入試小論文です）"></textarea>
+                <div class="quick-prompt-buttons">
+                    <button class="quick-prompt-button" data-prompt-text="これは大学入試の小論文です。">大学入試</button>
+                    <button class="quick-prompt-button" data-prompt-text="これはビジネス文書の草稿です。">ビジネス文書</button>
+                    <button class="quick-prompt-button" data-prompt-text="これは学術論文です。">学術論文</button>
+                    <button class="quick-prompt-button" data-prompt-text="これは感想文です。">感想文</button>
+                    <button class="quick-prompt-button" data-prompt-text="これは志望理由書です。">志望理由書</button>
+                    <button class="quick-prompt-button" data-prompt-text="丁寧な言葉遣いで添削してください。">丁寧な言葉遣い</button>
+                    <button class="quick-prompt-button" data-prompt-text="厳しく評価してください。">厳しく評価</button>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button id="applySettingsButton" class="settings-apply-button">適用</button>
+                <button id="cancelSettingsButton" class="settings-cancel-button">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="globalAttentionPopup" class="attention-popup hidden">
+        <div class="popup-content"></div>
+        <div class="popup-arrow"></div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const essayInput = document.getElementById('essayInput');
+            const gradeButton = document.getElementById('gradeButton');
+            const settingsButton = document.getElementById('settingsButton');
+            const headerInfoButton = document.getElementById('headerInfoButton');
+            const resultsDiv = document.getElementById('results');
+            const overallGradeArea = document.getElementById('overallGradeArea');
+            const overallFeedbackSection = document.getElementById('overallFeedbackSection');
+            const attentionSection = document.getElementById('attentionSection');
+            const attentionList = document.getElementById('attentionList');
+            const detailedGradeArea = document.getElementById('detailedGradeArea');
+            const remainingFeedbackArea = document.getElementById('remainingFeedbackArea');
+            const loadingIndicator = document.getElementById('loading');
+            const errorMessage = document.getElementById('error');
+
+            const disclaimerModal = document.getElementById('disclaimerModal');
+            const agreeButton = document.getElementById('agreeButton');
+            const AGREED_KEY = 'shoronbun_tensaku_disclaimer_agreed';
+
+            const settingsModal = document.getElementById('settingsModal');
+            const applySettingsButton = document.getElementById('applySettingsButton');
+            const cancelSettingsButton = document.getElementById('cancelSettingsButton');
+            const customPromptInput = document.getElementById('customPromptInput');
+            const quickPromptButtons = document.querySelectorAll('.quick-prompt-button');
+
+            const questionTextInput = document.getElementById('questionTextInput');
+            const charCountDisplay = document.getElementById('charCount');
+            
+            const wordCountOptions = document.querySelectorAll('input[name="wordCountOption"]');
+            const aboutInputGroup = document.getElementById('aboutInputGroup');
+            const designatedWordCountAbout = document.getElementById('designatedWordCountAbout');
+            const rangeInputGroup = document.getElementById('rangeInputGroup');
+            const designatedWordCountMin = document.getElementById('designatedWordCountMin');
+            const designatedWordCountMax = document.getElementById('designatedWordCountMax');
+
+            const globalAttentionPopup = document.getElementById('globalAttentionPopup');
+            const globalPopupContent = globalAttentionPopup.querySelector('.popup-content');
+            const globalPopupArrow = globalAttentionPopup.querySelector('.popup-arrow');
+
+            let currentSettings = {
+                gradingConfig: {
+                    style: true,
+                    typos: true,
+                    length: true,
+                },
+                customPrompt: '',
+                wordCountType: 'none',
+                designatedWordCountAbout: '',
+                designatedWordCountMin: '',
+                designatedWordCountMax: '',
+                questionText: ''
+            };
+
+            const warningDetails = {
+                "です・ます調": {
+                    title: "「です・ます調」が混在しています",
+                    explanation: "小論文では、原則として「だ・である」調で統一することが求められます。「です・ます調」が混在すると、文章全体に一貫性がなくなり、論文としての信頼性が損なわれます。どちらか一方に統一しましょう。"
+                },
+                "話し言葉": {
+                    title: "話し言葉が使用されています",
+                    explanation: "小論文はフォーマルな文章であるため、日常会話で使う「話し言葉」（例: 「～じゃん」「やっぱ」「ていうか」など）は不適切です。書き言葉（文語）を使用し、客観的で丁寧な表現を心がけましょう。"
+                },
+                "略字": {
+                    title: "略字が使用されています",
+                    explanation: "「々」「ヶ」などの繰り返し記号や、「〆」「㈱」などの略字は、正式な文書では避けるべきです。特に学術的な文脈では、正確性が求められるため、正式な漢字や表記に統一しましょう。"
+                },
+                "漢字間違い": {
+                    title: "漢字の間違いがあります",
+                    explanation: "漢字の誤りは、読解を妨げるだけでなく、書き手の教養や注意深さに疑問を抱かせる可能性があります。常用漢字の範囲内で、正確な漢字を使用しましょう。変換ミスにも注意が必要です。"
+                },
+                "誤字・脱字": {
+                    title: "誤字・脱字があります",
+                    explanation: "単語のスペルミス（誤字）や文字の書き忘れ（脱字）は、文章全体の信頼性を大きく損ないます。提出前には必ず複数回読み返し、誤りがないか確認しましょう。できれば第三者にも確認してもらうと良いでしょう。"
+                },
+                "ら抜き言葉": {
+                    title: "「ら抜き言葉」が使用されています",
+                    explanation: "「ら抜き言葉」とは、可能動詞の「れる」「られる」から「ら」を省略した形で、「見れる（見られる）」「食べれる（食べられる）」などが該当します。口語表現として広まっていますが、小論文などの書き言葉では文法的に誤りとされ、不適切です。正式な形を使用しましょう。"
+                },
+                "文字量": {
+                    title: "文字量に関する問題",
+                    explanation: "小論文には通常、適切な文字数の指定があります。この小論文は、その指定範囲から外れています。指定文字数の8割を下回る、または指定された最小値から最大値の範囲外にある場合にこの警告が表示されます。"
+                }
+            };
+
+
+            // Load saved settings from localStorage if available
+            const savedSettings = JSON.parse(localStorage.getItem('shoronbun_tensaku_settings'));
+            if (savedSettings) {
+                currentSettings = { ...currentSettings, ...savedSettings };
+            }
+
+            // --- Initial Load & Disclaimer ---
+            if (localStorage.getItem(AGREED_KEY) !== 'true') {
+                disclaimerModal.classList.remove('hidden');
+            }
+            
+            agreeButton.addEventListener('click', () => {
+                localStorage.setItem(AGREED_KEY, 'true');
+                disclaimerModal.classList.add('hidden');
+            });
+
+            headerInfoButton.addEventListener('click', () => {
+                disclaimerModal.classList.remove('hidden');
+            });
+
+            // --- Character Count Logic ---
+            const updateCharCount = () => {
+                const text = essayInput.value;
+                const charCount = text.length;
+                charCountDisplay.textContent = `文字数: ${charCount}`;
+            };
+
+            essayInput.addEventListener('input', updateCharCount);
+            updateCharCount(); // Initialize count on load
+
+            // --- Helper Functions ---
+            function showMessage(type, message) {
+                if (type === 'error') {
+                    errorMessage.textContent = message;
+                    errorMessage.classList.remove('hidden');
+                } else {
+                    errorMessage.classList.add('hidden');
+                }
+            }
+
+            function createGradeItem(label, value, targetId = null, isOverall = false) {
+                const dataTargetAttr = targetId ? `data-target="${targetId}"` : '';
+                const overallClass = isOverall ? 'overall-grade-item' : '';
+                const dataLabelAttr = `data-label="${label}"`;
+                return `
+                    <div class="grade-item ${overallClass}" ${dataTargetAttr} ${dataLabelAttr}>
+                        <div class="grade-label">${label}</div>
+                        <div class="grade-value">${value}</div>
+                    </div>
+                `;
+            }
+
+            function createFeedbackSection(id, title, grade, good_points, mistakes, improvements, suggestions, content_feedback = null) {
+                let content = '';
+
+                const gradeDisplay = grade ? `<span class="section-grade">${grade}</span>` : '';
+
+                if (good_points && good_points.trim() !== '') {
+                    content += `<p>・<strong>良かった点</strong><br>${good_points}</p>`;
+                }
+                
+                if (mistakes && mistakes.trim() !== '') {
+                    content += `<p>・<strong>間違っている点</strong><br>${mistakes}</p>`;
+                }
+
+                if (improvements && improvements.trim() !== '') {
+                    content += `<p>・<strong>改善すべき点</strong><br>${improvements}</p>`;
+                }
+
+                // Only add suggestions if it's not null/empty
+                if (suggestions && suggestions.trim() !== '') {
+                    content += `<p>・<strong>あなたへのアドバイス</strong><br>${suggestions}</p>`;
+                }
+
+                // New content feedback field
+                if (content_feedback && content_feedback.trim() !== '') {
+                    content += `<p>・<strong>内容</strong><br>${content_feedback}</p>`;
+                }
+
+                if (content.trim() === '') {
+                    return ''; // Don't return empty section
+                }
+
+                const iconSvg = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                `;
+
+                return `
+                    <div id="${id}" class="feedback-section">
+                        <h3>${iconSvg}${title}${gradeDisplay}</h3>
+                        ${content}
+                    </div>
+                `;
+            }
+
+            // --- Popup Positioning Logic ---
+            let activePopupElement = null; // Track the currently visible popup
+
+            function showAttentionPopup(itemBox, warningType, warningExcerpt = '') {
+                const detail = warningDetails[warningType];
+                if (!detail) return;
+
+                let popupHtml = `<strong>${detail.title}</strong><br>${detail.explanation}`;
+                if (warningExcerpt) {
+                    popupHtml += `<br><br><strong>該当箇所:</strong> ${warningExcerpt}`;
+                }
+                globalPopupContent.innerHTML = popupHtml;
+                globalAttentionPopup.classList.remove('hidden'); // Temporarily show to measure
+
+                const itemRect = itemBox.getBoundingClientRect();
+                const popupRect = globalAttentionPopup.getBoundingClientRect();
+
+                let calculatedLeft = itemRect.left + (itemRect.width / 2) - (popupRect.width / 2);
+                let calculatedTop;
+                let isPopupBelowItem = false; // True if popup is below the item (arrow points UP)
+
+                const offset = 12;
+
+                // Determine if popup can fit above the item
+                if (itemRect.top - popupRect.height - offset >= 0) {
+                    calculatedTop = itemRect.top - popupRect.height - offset;
+                    isPopupBelowItem = false; // Popup is ABOVE the item, so arrow points DOWN (arrow-down class on popup)
+                } else {
+                    // Otherwise, place it below the item
+                    calculatedTop = itemRect.bottom + offset;
+                    isPopupBelowItem = true; // Popup is BELOW the item, so arrow points UP (arrow-up class on popup)
+                }
+
+                const viewportMargin = 10;
+                if (calculatedLeft < viewportMargin) {
+                    calculatedLeft = viewportMargin;
+                } else if (calculatedLeft + popupRect.width > window.innerWidth - viewportMargin) {
+                    calculatedLeft = window.innerWidth - popupRect.width - viewportMargin;
+                }
+
+                globalAttentionPopup.style.left = `${calculatedLeft}px`;
+                globalAttentionPopup.style.top = `${calculatedTop}px`;
+
+                // IMPORTANT: Remove both classes first to ensure correct state
+                globalAttentionPopup.classList.remove('arrow-up', 'arrow-down');
+
+                if (isPopupBelowItem) {
+                    globalAttentionPopup.classList.add('arrow-up');
+                } else {
+                    globalAttentionPopup.classList.add('arrow-down');
+                }
+
+                globalAttentionPopup.style.opacity = '1';
+                globalAttentionPopup.style.visibility = 'visible';
+                activePopupElement = globalAttentionPopup;
+            }
+
+            function hideAttentionPopup() {
+                if (activePopupElement) {
+                    activePopupElement.style.opacity = '0';
+                    activePopupElement.style.visibility = 'hidden';
+                    activePopupElement = null;
+                }
+            }
+
+            // --- Settings Modal Logic ---
+            function updateWordCountInputVisibility() {
+                const selectedOption = document.querySelector('input[name="wordCountOption"]:checked').value;
+                aboutInputGroup.classList.add('hidden');
+                rangeInputGroup.classList.add('hidden');
+
+                if (selectedOption === 'about') {
+                    aboutInputGroup.classList.remove('hidden');
+                } else if (selectedOption === 'range') {
+                    rangeInputGroup.classList.remove('hidden');
+                }
+            }
+
+            wordCountOptions.forEach(radio => {
+                radio.addEventListener('change', updateWordCountInputVisibility);
+            });
+
+            function openSettingsModal() {
+                document.querySelector(`input[name="wordCountOption"][value="${currentSettings.wordCountType}"]`).checked = true;
+                updateWordCountInputVisibility();
+
+                designatedWordCountAbout.value = currentSettings.designatedWordCountAbout;
+                designatedWordCountMin.value = currentSettings.designatedWordCountMin;
+                designatedWordCountMax.value = currentSettings.designatedWordCountMax;
+                
+                questionTextInput.value = currentSettings.questionText;
+                customPromptInput.value = currentSettings.customPrompt;
+
+                settingsModal.classList.remove('hidden');
+            }
+
+            function closeSettingsModal(applyChanges) {
+                if (applyChanges) {
+                    currentSettings.wordCountType = document.querySelector('input[name="wordCountOption"]:checked').value;
+                    currentSettings.designatedWordCountAbout = designatedWordCountAbout.value.trim();
+                    currentSettings.designatedWordCountMin = designatedWordCountMin.value.trim();
+                    currentSettings.designatedWordCountMax = designatedWordCountMax.value.trim();
+                    currentSettings.questionText = questionTextInput.value.trim();
+                    currentSettings.customPrompt = customPromptInput.value.trim();
+
+                    localStorage.setItem('shoronbun_tensaku_settings', JSON.stringify(currentSettings));
+                }
+                settingsModal.classList.add('hidden');
+            }
+
+            settingsButton.addEventListener('click', openSettingsModal);
+            applySettingsButton.addEventListener('click', () => closeSettingsModal(true));
+            cancelSettingsButton.addEventListener('click', () => closeSettingsModal(false));
+
+            quickPromptButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const promptText = button.dataset.promptText;
+                    if (customPromptInput.value.trim() !== '' && !customPromptInput.value.endsWith('\n')) {
+                        customPromptInput.value += '\n';
+                    }
+                    customPromptInput.value += promptText;
+                    customPromptInput.focus();
+                });
+            });
+
+            updateWordCountInputVisibility();
+
+
+            gradeButton.addEventListener('click', async () => {
+                const userEssay = essayInput.value.trim();
+                const currentEssayCharCount = userEssay.length;
+
+                if (!userEssay) {
+                    showMessage('error', '添削する文章を入力してください。');
+                    return;
+                }
+
+                resultsDiv.classList.add('hidden');
+                resultsDiv.classList.remove('results-fade-in');
+                errorMessage.classList.add('hidden');
+                loadingIndicator.classList.remove('hidden');
+                overallGradeArea.innerHTML = '';
+                overallFeedbackSection.innerHTML = '';
+                attentionSection.classList.add('hidden');
+                attentionList.innerHTML = '';
+                detailedGradeArea.innerHTML = '';
+                remainingFeedbackArea.innerHTML = '';
+                hideAttentionPopup();
+
+                try {
+                    // Start of the main prompt instructions for AI
+                    let gradingInstructions = `
+                    あなたはプロの小論文添削者です。以下の評価基準を厳守し、与えられた日本語の文章（小論文）を添削し、詳細な評価とフィードバックをJSON形式で提供してください。
+                    小論文は論理的な日本語の文章であることを念頭に置き、視覚的なフォーマット（例: 箇条書きの使用、レイアウトなど）に関するフィードバックは提供しないでください。論理展開、表現、構成など、文章そのものの質に関する講評に注力してください。
+
+                    ---
+                    小論文の評価基準に関する情報:
+                    小論文の評価は、通常、「理解力」「構成力」「発想力」「表現力」の４つが重視されます。
+
+                    理解力とは、設問や課題文、資料の内容を正しく理解できているかどうか。
+                    構成力とは、序論→本論→結論の構成がしっかりとできているかどうか。
+                    発想力とは自分なりの意見がしっかりと示されているか。
+                    表現力とは、的確で明快な文章を書き、誤解のないように伝える力。
+
+                    それらを踏まえ、特に重要な評価基準となるものをいくつか紹介します。
+
+                    序論→本論→結論の構成がしっかりとできているか
+                    「構成力」「発想力」に関わるポイントとしては、以下のようなものがあります。
+                    「序論、本論、結論がきちんと段落分けされていて、各段落の役割が明瞭であることは大きな加点要素になりますね」（小柴先生）
+                    前述のように鍵を握るのは序論。
+                    序論でその小論文の方向性をしっかり提示できているかが問われることを意識しましょう。
+                    なお、序論で結論まで言ってしまっている場合は、最後の結論がなくても減点にはなりません。
+
+                    設問の趣旨にしっかりと答えているか
+                    「理解力」に関わるポイントと重要なのは、設問の趣旨にしっかりと答えているかどうか。
+                    「どんなに立派な意見でも、設問条件を満たしていないと大幅減点は免れないので要注意です。
+                    例えば、『Aという問題について、賛成の立場から論じなさい』という設問条件に対して、『いや、自分は反対なので、その立場から論じたい』というのはNG。
+                    問われているのは、自分の持論や思想ではなく、あくまで設問条件に応える柔軟な思考力なのです」（小柴先生）
+                    誤字・脱字、表現の誤用などがないか
+                    「表現力」に関わる部分では、誤字・脱字や表現の誤用などは一つ一つが減点対象になります。
+                    例えば、本来は否定的な表現で使う「美辞麗句」という言葉を肯定的な意味で使う、あるいは、「汚名挽回」（正しくは汚名返上）など間違った表現を使うといったミスで減点を重ねるのは避けたいところ。
+                    自信がなければ無理して難しい表現を使わないほうが無難です。
+
+                    ＜小論文の評価基準チェックリスト＞
+                    小論文の評価基準について、主なものは前述した通りであるが、それ以外にも細かな評価基準が存在する。
+                    ここでは、それらをまとめて紹介するので、推敲の際になどに活用してほしい。
+                    表記・表現に関する評価基準
+                    文字量・規定の文字量を満たしているか。
+                    規定の８割以上を満たしていれば問題なし。
+                    ８割より多少少ない程度なら問題なし。
+                    大幅に少ない（５割程度など）場合は大幅減点の可能性あり。
+                    文体・「だ・である」に統一されているか。
+                    「です・ます」が混在していると小幅減点。特に「です・ます調」という警告タイプで検出・指摘してください。
+                    表現・「話し言葉」「略字」「漢字間違い」「誤字・脱字」「ら抜き言葉」などがないか。
+                    それぞれ小幅減点の対象となる。特に「ら抜き言葉」の検出と指摘を強化してください。
+                    文字の丁寧さ・読みやすいきれいな文字で書かれているか。
+                    判読が難しいほど極端に汚い字などは大幅減点の可能性あり。
+                    主語・述語・文章の主語・述語が明確か。
+                    主語・述語が不明確な文が多いと、トータルな表現力の評価で大幅減点の可能性あり。
+                    文の長さ・一文が長すぎないか。
+                    読みにくさや主語・述語関係の不明確さにつながる場合、大幅減点の可能性あり。
+                    原稿用紙の
+                    使い方・段落の冒頭で一マス空けるなど、基本ルールが守られているか。
+                    小幅減点の可能性あり。
+                    指定外の記述・指定されていないのに本文スペースにタイトルや名前を記入していないか。
+                    小幅減点の可能性あり。
+                    全体に関する評価基準
+                    答案の趣旨・設問の趣旨にきちんと応えているか。
+                    例えば、「課題文に対して反論しなさい」という出題に対して、答案が反論になっていない場合などは大幅減点。
+                    意見・全体を通して一貫した自分の意見・主張を展開できているか。
+                    何が言いたいのかわからない場合、一般論なのか自分の意見なのかが不明瞭な場合、論文としての妥当性を欠く暴論などは大幅減点。
+                    構成・序論・本論・結論が明確に段落分けされているか。
+                    各段落の役割が不明瞭な場合、序論が明確でない場合などは大幅減点。
+                    論理性・客観性・意見・主張に対する根拠や理由が示されているか。
+                    意見・主張だけで裏付けとなる客観的事実や統計データ、または考えられる反論などが盛り込まれていない場合は大幅減点。
+                    基礎教養・受験する学部の学問に関する基礎教養があるか。
+                    その学部を志望するなら当然知っているべき基礎知識、あるいは社会常識と言えるレベルの知識がないことが読み取れてしまうと減点対象。
+                    ---
+
+                    上記の評価基準を踏まえ、以下の項目で文章を評価してください。
+                    評価はA+, A, B, C, D, E, Fのいずれかで採点し、その後に各評価項目ごとに詳細な講評を日本語でJSON形式で出力してください。
+                    A+ は完璧で、直すところがないような最高の評価です。F は一番低い評価で、0点に近い低い点数になります。
+
+                    評価項目と詳細フィードバックの要件:
+                    - 小論文の主要評価軸である「理解力」「構成力」「発想力」「表現力」について、それぞれに以下の4つのサブ項目で講評を記載してください。
+                        - 良かった点（good_points）: その項目で評価できる点
+                        - 間違っている点（mistakes）: 明らかな誤りや修正が必要な点
+                        - 改善すべき点（improvements）: 全体的に見て改善の余地がある点
+                        - あなたへのアドバイス（suggestions）: さらに質を高めるための具体的な提案
+                    - 総合評価（overall）については、以下のサブ項目で講評を記載してください。特に「内容」に重点を置いてください。「あなたへのアドバイス」は記述しないでください。
+                        - 良かった点（good_points）: その項目で評価できる点
+                        - 間違っている点（mistakes）: 明らかな誤りや修正が必要な点
+                        - 改善すべき点（improvements）: 全体的に見て改善の余地がある点
+                        - 内容（content_feedback）: 小論文の論旨、深さ、説得力、独自性など、内容そのものに関する詳細な評価。
+
+                    - 以下の点について、顕著な問題があれば、その内容を配列warningsに、オブジェクトとして追加してください。各オブジェクトは'type'（警告の種類、例: "です・ます調"）と'excerpt'（該当箇所、具体的な単語やフレーズ）の2つのプロパティを持つようにしてください。
+                        - 「です・ます調」が混在していないか
+                        - 「話し言葉」が使用されていないか
+                        - 「略字」が使用されていないか
+                        - 「漢字間違い」がないか
+                        - 「誤字・脱字」がないか
+                        - 「ら抜き言葉」が使用されていないか
+
+                    最後に、今後どのような点に気を付ければいいかに関する全体的なアドバイスを、'advice_for_improvement' というキーで出力してください。
+                    `;
+                    // End of instructions for AI
+
+                    let additionalInstructionsForAI = '';
+                    if (currentSettings.questionText) {
+                        additionalInstructionsForAI += `この問題の問題文は「${currentSettings.questionText}」です。この問題文の題意に沿っているかをきちんと評価してください。`;
+                    }
+                    if (additionalInstructionsForAI) {
+                        additionalInstructionsForAI = `\n\n追加の評価条件：${additionalInstructionsForAI}`;
+                    }
+
+                    let finalPrompt = `${gradingInstructions}添削対象の日本語文章:\n${userEssay}${additionalInstructionsForAI}\n`;
+
+                    // Add custom prompt if available (after conditional instructions to ensure order)
+                    if (currentSettings.customPrompt) {
+                        finalPrompt += `\nユーザーからの追加指示: ${currentSettings.customPrompt}`;
+                    }
+
+
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: finalPrompt }] });
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    "overall_grade": { "type": "STRING", "enum": ["A+", "A", "B", "C", "D", "E", "F"] },
+                                    "understanding_grade": { "type": "STRING", "enum": ["A+", "A", "B", "C", "D", "E", "F"] },
+                                    "structural_grade": { "type": "STRING", "enum": ["A+", "A", "B", "C", "D", "E", "F"] },
+                                    "ideation_grade": { "type": "STRING", "enum": ["A+", "A", "B", "C", "D", "E", "F"] },
+                                    "expressive_grade": { "type": "STRING", "enum": ["A+", "A", "B", "C", "D", "E", "F"] },
+                                    "warnings": {
+                                        "type": "ARRAY",
+                                        "items": {
+                                            "type": "OBJECT",
+                                            "properties": {
+                                                "type": { "type": "STRING" },
+                                                "excerpt": { "type": "STRING" }
+                                            },
+                                            "required": ["type"], // excerpt is optional
+                                            "propertyOrdering": ["type", "excerpt"]
+                                        }
+                                    },
+                                    "advice_for_improvement": { "type": "STRING" },
+                                    "detailed_feedback": {
+                                        "type": "OBJECT",
+                                        "properties": {
+                                            "overall": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "good_points": { "type": "STRING" },
+                                                    "improvements": { "type": "STRING" },
+                                                    "mistakes": { "type": "STRING" },
+                                                    // Removed "suggestions" from schema for overall feedback
+                                                    "content_feedback": { "type": "STRING" } 
+                                                },
+                                                // Updated propertyOrdering to reflect removal of suggestions
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "content_feedback"] 
+                                            },
+                                            "understanding": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "good_points": { "type": "STRING" },
+                                                    "mistakes": { "type": "STRING" },
+                                                    "improvements": { "type": "STRING" },
+                                                    "suggestions": { "type": "STRING" }
+                                                },
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "suggestions"]
+                                            },
+                                            "structural": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "good_points": { "type": "STRING" },
+                                                    "mistakes": { "type": "STRING" },
+                                                    "improvements": { "type": "STRING" },
+                                                    "suggestions": { "type": "STRING" }
+                                                },
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "suggestions"]
+                                            },
+                                            "ideation": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "good_points": { "type": "STRING" },
+                                                    "mistakes": { "type": "STRING" },
+                                                    "improvements": { "type": "STRING" },
+                                                    "suggestions": { "type": "STRING" }
+                                                },
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "suggestions"]
+                                            },
+                                            "expressive": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "good_points": { "type": "STRING" },
+                                                    "mistakes": { "type": "STRING" },
+                                                    "improvements": { "type": "STRING" },
+                                                    "suggestions": { "type": "STRING" }
+                                                },
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "suggestions"]
+                                            }
+                                        },
+                                        "propertyOrdering": ["overall", "understanding", "structural", "ideation", "expressive"]
+                                    }
+                                },
+                                "propertyOrdering": ["overall_grade", "understanding_grade", "structural_grade", "ideation_grade", "expressive_grade", "warnings", "advice_for_improvement", "detailed_feedback"]
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('API response error:', errorData);
+                        throw new Error(`APIエラー: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                    }
+
+                    const result = await response.json();
+                    let parsedJson;
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const jsonString = result.candidates[0].content.parts[0].text;
+                        console.log('Raw JSON string from API:', jsonString);
+                        parsedJson = JSON.parse(jsonString);
+                    } else {
+                        throw new Error('APIからの応答が予期しない形式です。');
+                    }
+
+                    // --- JavaScript-side Character Count Check for "文字量" warning ---
+                    let jsWarnings = parsedJson.warnings || []; // Start with warnings from AI
+                    const essayLength = userEssay.length;
+
+                    // Filter out any "文字量" warning from AI if it exists, as JS will handle it
+                    jsWarnings = jsWarnings.filter(w => w.type !== "文字量");
+
+                    if (currentSettings.wordCountType === 'about' && currentSettings.designatedWordCountAbout) {
+                        const targetCount = parseInt(currentSettings.designatedWordCountAbout, 10);
+                        if (!isNaN(targetCount) && essayLength < targetCount * 0.8) {
+                            // Add "文字量" warning with explanation based on type
+                            jsWarnings.push({ type: "文字量", excerpt: `${essayLength}文字` });
+                        }
+                    } else if (currentSettings.wordCountType === 'range') {
+                        const minCount = parseInt(currentSettings.designatedWordCountMin, 10);
+                        const maxCount = parseInt(currentSettings.designatedWordCountMax, 10);
+                        const hasMinInput = currentSettings.designatedWordCountMin.trim() !== ''; // Check if min input field has content
+                        const hasMaxInput = currentSettings.designatedWordCountMax.trim() !== ''; // Check if max input field has content
+
+                        let issue = false;
+                        let excerptText = '';
+
+                        if (hasMinInput && hasMaxInput && !isNaN(minCount) && !isNaN(maxCount)) {
+                            // Both min and max are specified and valid numbers
+                            if (essayLength < minCount || essayLength > maxCount) {
+                                issue = true;
+                                excerptText = `${essayLength}文字 (指定範囲: ${minCount}〜${maxCount}文字)`;
+                            }
+                        } else if (!hasMinInput && hasMaxInput && !isNaN(maxCount)) {
+                            // Only max is specified and valid, min is not (effectively 0 or no lower bound)
+                            // Warn if essay is less than 80% of max, or greater than max
+                            if (essayLength < maxCount * 0.8) {
+                                issue = true;
+                                excerptText = `${essayLength}文字 (指定上限: ${maxCount}文字、目安: ${Math.round(maxCount * 0.8)}文字以上)`;
+                            } else if (essayLength > maxCount) {
+                                issue = true;
+                                excerptText = `${essayLength}文字 (指定上限: ${maxCount}文字)`;
+                            }
+                        } else if (hasMinInput && !hasMaxInput && !isNaN(minCount)) {
+                            // Only min is specified and valid, max is not (effectively no upper bound)
+                            // Warn if essay is less than min
+                            if (essayLength < minCount) {
+                                issue = true;
+                                excerptText = `${essayLength}文字 (指定下限: ${minCount}文字)`;
+                            }
+                        }
+
+                        if (issue) {
+                            jsWarnings.push({ type: "文字量", excerpt: excerptText });
+                        }
+                    }
+
+
+                    // Ensure unique warnings based on type
+                    const uniqueWarningTypes = new Set();
+                    const finalWarnings = [];
+                    jsWarnings.forEach(warning => {
+                        if (!uniqueWarningTypes.has(warning.type)) {
+                            uniqueWarningTypes.add(warning.type);
+                            finalWarnings.push(warning);
+                        }
+                    });
+
+
+                    // Overall Grade
+                    overallGradeArea.innerHTML = createGradeItem('総合', parsedJson.overall_grade, 'feedback-overall', true);
+
+                    // Overall Feedback
+                    const overallFeedback = parsedJson.detailed_feedback.overall;
+                    overallFeedbackSection.innerHTML = createFeedbackSection(
+                        'feedback-overall',
+                        '総合',
+                        parsedJson.overall_grade,
+                        overallFeedback.good_points,
+                        overallFeedback.mistakes,
+                        overallFeedback.improvements,
+                        // Pass null for suggestions to remove it from overall feedback
+                        null, 
+                        overallFeedback.content_feedback 
+                    );
+                    overallFeedbackSection.classList.remove('hidden');
+
+                    // Warnings Section (Display if any warnings exist)
+                    if (finalWarnings.length > 0) {
+                        attentionList.innerHTML = finalWarnings.map(warning => {
+                            // Ensure warning.excerpt is treated as optional, and display type if excerpt is missing
+                            const displayExcerpt = warning.excerpt ? ` (${warning.excerpt})` : '';
+                            return `
+                                <div class="attention-item-box"
+                                    data-warning-type="${warning.type}"
+                                    data-warning-excerpt="${warning.excerpt || ''}">
+                                    ${warning.type}
+                                </div>
+                            `;
+                        }).join('');
+                        attentionSection.classList.remove('hidden');
+
+                        // Attach event listeners for popups after they are rendered
+                        document.querySelectorAll('.attention-item-box').forEach(itemBox => {
+                            itemBox.addEventListener('mouseenter', () => {
+                                const warningType = itemBox.dataset.warningType;
+                                const warningExcerpt = itemBox.dataset.warningExcerpt;
+                                showAttentionPopup(itemBox, warningType, warningExcerpt);
+                            });
+                            itemBox.addEventListener('mouseleave', hideAttentionPopup);
+                            itemBox.addEventListener('touchstart', (e) => {
+                                e.preventDefault();
+                                const warningType = itemBox.dataset.warningType;
+                                const warningExcerpt = itemBox.dataset.warningExcerpt;
+                                if (activePopupElement && globalAttentionPopup.dataset.currentRef === warningType) {
+                                    hideAttentionPopup();
+                                    globalAttentionPopup.dataset.currentRef = '';
+                                } else {
+                                    if (activePopupElement) {
+                                        hideAttentionPopup();
+                                    }
+                                    showAttentionPopup(itemBox, warningType, warningExcerpt);
+                                    globalAttentionPopup.dataset.currentRef = warningType; // Store the type as current reference
+                                }
+                            }, { passive: false });
+                        });
+                        document.addEventListener('touchstart', (e) => {
+                            if (activePopupElement && !globalAttentionPopup.contains(e.target) && !e.target.closest('.attention-item-box')) {
+                                hideAttentionPopup();
+                                globalAttentionPopup.dataset.currentRef = '';
+                            }
+                        });
+
+
+                    } else {
+                        attentionSection.classList.add('hidden');
+                    }
+                    
+                    let detailedGradesHtml = '';
+                    let remainingFeedbackHtml = '';
+
+                    const categoriesForDetailedFeedback = [
+                        { key: 'understanding', label: '理解力', gradeKey: 'understanding_grade' },
+                        { key: 'structural', label: '構成力', gradeKey: 'structural_grade' },
+                        { key: 'ideation', label: '発想力', gradeKey: 'ideation_grade' },
+                        { key: 'expressive', label: '表現力', gradeKey: 'expressive_grade' }
+                    ];
+
+                    categoriesForDetailedFeedback.forEach(cat => {
+                        const currentGrade = parsedJson[cat.gradeKey];
+                        const feedbackDetails = parsedJson.detailed_feedback[cat.key] || {};
+
+                        detailedGradesHtml += createGradeItem(cat.label, currentGrade, `feedback-${cat.key}`);
+
+                        remainingFeedbackHtml += createFeedbackSection(
+                            `feedback-${cat.key}`,
+                            cat.label,
+                            currentGrade,
+                            feedbackDetails.good_points,
+                            feedbackDetails.mistakes,
+                            feedbackDetails.improvements,
+                            feedbackDetails.suggestions
+                        );
+                    });
+
+                    if (parsedJson.advice_for_improvement && parsedJson.advice_for_improvement.trim() !== '') {
+                        remainingFeedbackHtml += `<div class="feedback-section"><p>・<strong>全体へのアドバイス</strong><br>${parsedJson.advice_for_improvement}</p></div>`;
+                    }
+
+                    detailedGradeArea.innerHTML = detailedGradesHtml;
+                    remainingFeedbackArea.innerHTML = remainingFeedbackHtml;
+
+                    resultsDiv.classList.remove('hidden');
+                    resultsDiv.classList.add('results-fade-in');
+
+                    document.querySelectorAll('.grade-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            const targetId = item.dataset.target;
+                            if (targetId) {
+                                const targetElement = document.getElementById(targetId);
+                                if (targetElement) {
+                                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        });
+                    });
+
+                } catch (error) {
+                    console.error('添削エラー:', error);
+                    showMessage('error', `添削中にエラーが発生しました。APIキーが正しく設定されているか、またはネットワーク接続を確認してください。詳細: ${error.message}`);
+                    resultsDiv.classList.add('hidden');
+                    overallFeedbackSection.classList.add('hidden');
+                    attentionSection.classList.add('hidden');
+                    hideAttentionPopup();
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
