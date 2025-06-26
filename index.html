@@ -976,6 +976,7 @@
             .terms-box { max-height: 300px; }
             .attention-popup { width: 200px; font-size: 0.75rem; padding: 10px; }
             .attention-item-box { font-size: 0.75rem; padding: 3px 8px; margin: 3px; }
+            .grade-scale-visual span.grade-box { min-width: 40px; } /* Maintained consistency for smaller mobile breakpoint */
         }
     </style>
 </head>
@@ -1894,7 +1895,7 @@
                         // Attach event listeners for popups after they are rendered
                         document.querySelectorAll('.attention-item-box').forEach(itemBox => {
                             itemBox.addEventListener('mouseenter', () => {
-                                const warningType = itemBox.dataset.warning-type;
+                                const warningType = itemBox.dataset.warningType;
                                 const warningExcerpt = itemBox.dataset.warningExcerpt;
                                 showAttentionPopup(itemBox, warningType, warningExcerpt);
                             });
