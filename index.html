@@ -290,6 +290,8 @@
             margin: 0;
             flex-grow: 1;
             text-align: center;
+            /* Added min-width for better mobile display */
+            min-width: 30px; 
         }
         .grade-scale-visual .arrow {
             display: none;
@@ -637,7 +639,9 @@
             border-radius: 18px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             max-width: 650px;
-            width: 90%;
+            width: 90%; /* Adjusted for better mobile fit */
+            box-sizing: border-box; /* Include padding in width calculation */
+            margin: 15px auto; /* Centered on small screens too */
             height: auto; /* Allow content to dictate height */
             max-height: 95vh; /* Max height for modal */
             overflow-y: auto; /* Allow internal scrolling if content is too tall */
@@ -893,17 +897,17 @@
         }
         /* Arrow pointing down (when popup is above the element) */
         .attention-popup.arrow-down .popup-arrow {
-            bottom: -8px; /* Position below popup content */
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: -8px;
+            left: var(--arrow-left-position, 50%); /* Use custom property for positioning */
+            transform: translateX(-50%); /* Keep centering the arrow itself */
             border-width: 8px 8px 0 8px; /* Up-pointing triangle base on bottom */
             border-color: #333333 transparent transparent transparent;
         }
         /* Arrow pointing up (when popup is below the element) */
         .attention-popup.arrow-up .popup-arrow {
-            top: -8px; /* Position above popup content */
-            left: 50%;
-            transform: translateX(-50%);
+            top: -8px;
+            left: var(--arrow-left-position, 50%); /* Use custom property for positioning */
+            transform: translateX(-50%); /* Keep centering the arrow itself */
             border-width: 0 8px 8px 8px; /* Down-pointing triangle base on top */
             border-color: transparent transparent #333333 transparent;
         }
@@ -932,7 +936,8 @@
             .grade-scale-visual { font-size: 0.85rem; }
             .grade-scale-visual .scale-header { max-width: 100%; font-size: 0.9em; }
             .grade-scale-visual .grade-row { max-width: 100%; justify-content: space-between; padding: 5px 0; }
-            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; }
+            /* Adjusted min-width for mobile for grade boxes */
+            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; min-width: 28px; }
             .overall-grade-item { min-width: unset; width: 80%; max-width: 220px; padding: 15px 12px; margin-left: auto; margin-right: auto; }
             .overall-grade-item .grade-value { font-size: 2.2rem; }
             .detailed-grades-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
@@ -1401,36 +1406,54 @@
                 globalAttentionPopup.classList.remove('hidden'); // Temporarily show to measure
 
                 const itemRect = itemBox.getBoundingClientRect();
-                const popupRect = globalAttentionPopup.getBoundingClientRect();
+                const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-                let calculatedLeft = itemRect.left + (itemRect.width / 2) - (popupRect.width / 2);
+                // Reset arrow classes before re-applying
+                globalAttentionPopup.classList.remove('arrow-up', 'arrow-down');
+
+                // Initial positioning (attempt to center over item)
+                let calculatedLeft = itemRect.left + (itemRect.width / 2) - (globalAttentionPopup.offsetWidth / 2);
                 let calculatedTop;
-                let isPopupBelowItem = false; // True if popup is below the item (arrow points UP)
+                let isPopupBelowItem = false;
 
-                const offset = 12;
+                const offset = 12; // Gap between item and popup
+                const viewportMargin = 10; // Margin from viewport edges
 
-                // Determine if popup can fit above the item
-                if (itemRect.top - popupRect.height - offset >= 0) {
-                    calculatedTop = itemRect.top - popupRect.height - offset;
-                    isPopupBelowItem = false; // Popup is ABOVE the item, so arrow points DOWN (arrow-down class on popup)
-                } else {
-                    // Otherwise, place it below the item
-                    calculatedTop = itemRect.bottom + offset;
-                    isPopupBelowItem = true; // Popup is BELOW the item, so arrow points UP (arrow-up class on popup)
-                }
-
-                const viewportMargin = 10;
+                // Adjust horizontal position to keep within viewport
                 if (calculatedLeft < viewportMargin) {
                     calculatedLeft = viewportMargin;
-                } else if (calculatedLeft + popupRect.width > window.innerWidth - viewportMargin) {
-                    calculatedLeft = window.innerWidth - popupRect.width - viewportMargin;
+                } else if (calculatedLeft + globalAttentionPopup.offsetWidth > viewportWidth - viewportMargin) {
+                    calculatedLeft = viewportWidth - globalAttentionPopup.offsetWidth - viewportMargin;
+                }
+
+                // Determine vertical position and arrow direction
+                if (itemRect.top - globalAttentionPopup.offsetHeight - offset >= 0) {
+                    calculatedTop = itemRect.top - globalAttentionPopup.offsetHeight - offset;
+                    isPopupBelowItem = false; // Popup is above, arrow points down
+                } else {
+                    calculatedTop = itemRect.bottom + offset;
+                    isPopupBelowItem = true; // Popup is below, arrow points up
                 }
 
                 globalAttentionPopup.style.left = `${calculatedLeft}px`;
                 globalAttentionPopup.style.top = `${calculatedTop}px`;
 
-                // IMPORTANT: Remove both classes first to ensure correct state
-                globalAttentionPopup.classList.remove('arrow-up', 'arrow-down');
+                // Calculate arrow position relative to the popup's new (potentially clamped) left edge
+                // The item's center point, relative to the viewport's left edge
+                const itemCenterX = itemRect.left + (itemRect.width / 2);
+                // The arrow's desired position relative to the popup's left edge
+                // This value is the percentage of the popup's width where the arrow should be centered.
+                // We use a CSS variable for this.
+                const arrowRelativeLeft = (itemCenterX - calculatedLeft) / globalAttentionPopup.offsetWidth * 100;
+
+                // Ensure arrow stays within popup boundaries (e.g., 10% to 90%)
+                const minArrowPosition = 10; // 10% from left
+                const maxArrowPosition = 90; // 10% from right
+                let finalArrowPosition = Math.max(minArrowPosition, Math.min(maxArrowPosition, arrowRelativeLeft));
+                
+                globalAttentionPopup.style.setProperty('--arrow-left-position', `${finalArrowPosition}%`);
+
 
                 if (isPopupBelowItem) {
                     globalAttentionPopup.classList.add('arrow-up');
