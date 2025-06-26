@@ -894,20 +894,19 @@
             width: 0;
             height: 0;
             border-style: solid;
+            /* Use pixel value set by JS */
+            left: var(--arrow-left-position);
+            transform: translateX(-50%); /* Center the arrow on the --arrow-left-position */
         }
         /* Arrow pointing down (when popup is above the element) */
         .attention-popup.arrow-down .popup-arrow {
             bottom: -8px;
-            left: var(--arrow-left-position, 50%); /* Use custom property for positioning */
-            transform: translateX(-50%); /* Keep centering the arrow itself */
             border-width: 8px 8px 0 8px; /* Up-pointing triangle base on bottom */
             border-color: #333333 transparent transparent transparent;
         }
         /* Arrow pointing up (when popup is below the element) */
         .attention-popup.arrow-up .popup-arrow {
             top: -8px;
-            left: var(--arrow-left-position, 50%); /* Use custom property for positioning */
-            transform: translateX(-50%); /* Keep centering the arrow itself */
             border-width: 0 8px 8px 8px; /* Down-pointing triangle base on top */
             border-color: transparent transparent #333333 transparent;
         }
@@ -936,8 +935,8 @@
             .grade-scale-visual { font-size: 0.85rem; }
             .grade-scale-visual .scale-header { max-width: 100%; font-size: 0.9em; }
             .grade-scale-visual .grade-row { max-width: 100%; justify-content: space-between; padding: 5px 0; }
-            /* Adjusted min-width for mobile for grade boxes */
-            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; min-width: 28px; }
+            /* Adjusted min-width for mobile for grade boxes to be closer to PC size */
+            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; min-width: 40px; } /* Increased from 28px */
             .overall-grade-item { min-width: unset; width: 80%; max-width: 220px; padding: 15px 12px; margin-left: auto; margin-right: auto; }
             .overall-grade-item .grade-value { font-size: 2.2rem; }
             .detailed-grades-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
@@ -952,7 +951,14 @@
             .grammar-feedback-table th, .grammar-feedback-table td { padding: 6px 8px; font-size: 0.75rem; }
             .grammar-feedback-table th { width: 30%; }
             .overall-results-summary { gap: 20px; }
-            .modal-content, .settings-modal-content { padding: 15px; width: 95%; max-height: 95vh; }
+            /* Adjusted settings modal content for mobile to ensure it fits within screen */
+            .settings-modal-content { 
+                padding: 15px; 
+                width: calc(100% - 30px); /* 15px margin on each side */
+                max-width: 650px; /* Keep max-width for larger screens */
+                margin: 15px auto; /* Ensure vertical margin as well */
+                box-sizing: border-box; /* Crucial for width calculation */
+            }
             .modal-content h2, .settings-modal-content h2 { font-size: 1.2rem; }
             .modal-content p { font-size: 0.75rem; }
             .terms-box { max-height: 250px; font-size: 0.75rem; }
@@ -1445,14 +1451,13 @@
                 // The arrow's desired position relative to the popup's left edge
                 // This value is the percentage of the popup's width where the arrow should be centered.
                 // We use a CSS variable for this.
-                const arrowRelativeLeft = (itemCenterX - calculatedLeft) / globalAttentionPopup.offsetWidth * 100;
+                const arrowRelativeLeft = itemCenterX - calculatedLeft;
 
-                // Ensure arrow stays within popup boundaries (e.g., 10% to 90%)
-                const minArrowPosition = 10; // 10% from left
-                const maxArrowPosition = 90; // 10% from right
-                let finalArrowPosition = Math.max(minArrowPosition, Math.min(maxArrowPosition, arrowRelativeLeft));
+                // Ensure arrow stays within popup boundaries (e.g., 10px from edges)
+                const arrowMarginFromPopupEdge = 15; // px
+                let finalArrowPosition = Math.max(arrowMarginFromPopupEdge, Math.min(globalAttentionPopup.offsetWidth - arrowMarginFromPopupEdge, arrowRelativeLeft));
                 
-                globalAttentionPopup.style.setProperty('--arrow-left-position', `${finalArrowPosition}%`);
+                globalAttentionPopup.style.setProperty('--arrow-left-position', `${finalArrowPosition}px`);
 
 
                 if (isPopupBelowItem) {
@@ -1805,38 +1810,36 @@
                             jsWarnings.push({ type: "文字量", excerpt: `${essayLength}文字` });
                         }
                     } else if (currentSettings.wordCountType === 'range') {
-                        const minCount = parseInt(currentSettings.designatedWordCountMin, 10);
-                        const maxCount = parseInt(currentSettings.designatedWordCountMax, 10);
-                        const hasMinInput = currentSettings.designatedWordCountMin.trim() !== ''; // Check if min input field has content
-                        const hasMaxInput = currentSettings.designatedWordCountMax.trim() !== ''; // Check if max input field has content
+                        const minCountInput = currentSettings.designatedWordCountMin.trim();
+                        const maxCountInput = currentSettings.designatedWordCountMax.trim();
 
+                        let minCount = isNaN(parseInt(minCountInput, 10)) ? 0 : parseInt(minCountInput, 10);
+                        let maxCount = isNaN(parseInt(maxCountInput, 10)) ? Infinity : parseInt(maxCountInput, 10);
+                        
                         let issue = false;
                         let excerptText = '';
 
-                        if (hasMinInput && hasMaxInput && !isNaN(minCount) && !isNaN(maxCount)) {
-                            // Both min and max are specified and valid numbers
-                            if (essayLength < minCount || essayLength > maxCount) {
-                                issue = true;
-                                excerptText = `${essayLength}文字 (指定範囲: ${minCount}〜${maxCount}文字)`;
-                            }
-                        } else if (!hasMinInput && hasMaxInput && !isNaN(maxCount)) {
-                            // Only max is specified and valid, min is not (effectively 0 or no lower bound)
-                            // Warn if essay is less than 80% of max, or greater than max
-                            if (essayLength < maxCount * 0.8) {
+                        if (minCountInput === '' && maxCountInput !== '') {
+                            // Only max is specified (e.g., "～以下" or "0～以下")
+                            // Check if essay length is less than 80% of max, or greater than max
+                            if (essayLength < maxCount * 0.8 || essayLength > maxCount) {
                                 issue = true;
                                 excerptText = `${essayLength}文字 (指定上限: ${maxCount}文字、目安: ${Math.round(maxCount * 0.8)}文字以上)`;
-                            } else if (essayLength > maxCount) {
-                                issue = true;
-                                excerptText = `${essayLength}文字 (指定上限: ${maxCount}文字)`;
                             }
-                        } else if (hasMinInput && !hasMaxInput && !isNaN(minCount)) {
-                            // Only min is specified and valid, max is not (effectively no upper bound)
-                            // Warn if essay is less than min
+                        } else if (minCountInput !== '' && maxCountInput === '') {
+                            // Only min is specified (e.g., "～以上")
                             if (essayLength < minCount) {
                                 issue = true;
                                 excerptText = `${essayLength}文字 (指定下限: ${minCount}文字)`;
                             }
+                        } else if (minCountInput !== '' && maxCountInput !== '') {
+                            // Both min and max are specified
+                            if (essayLength < minCount || essayLength > maxCount) {
+                                issue = true;
+                                excerptText = `${essayLength}文字 (指定範囲: ${minCount}〜${maxCount}文字)`;
+                            }
                         }
+                        // If neither min nor max is specified, no word count check applies here.
 
                         if (issue) {
                             jsWarnings.push({ type: "文字量", excerpt: excerptText });
@@ -1891,7 +1894,7 @@
                         // Attach event listeners for popups after they are rendered
                         document.querySelectorAll('.attention-item-box').forEach(itemBox => {
                             itemBox.addEventListener('mouseenter', () => {
-                                const warningType = itemBox.dataset.warningType;
+                                const warningType = itemBox.dataset.warning-type;
                                 const warningExcerpt = itemBox.dataset.warningExcerpt;
                                 showAttentionPopup(itemBox, warningType, warningExcerpt);
                             });
