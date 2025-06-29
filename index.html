@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Base styles */
-        html, body {
+        html,
+        body {
             height: 100%;
         }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F7F7F7;
@@ -22,6 +25,7 @@
             font-size: 0.9rem;
             align-items: center;
         }
+
         .container {
             background-color: #ffffff;
             padding: 30px;
@@ -35,6 +39,7 @@
             margin-left: auto;
             margin-right: auto;
         }
+
         .header-section {
             display: flex;
             flex-direction: column;
@@ -43,6 +48,7 @@
             position: relative;
             margin-bottom: 24px;
         }
+
         .main-title {
             font-size: 2.2rem;
             font-weight: 700;
@@ -50,6 +56,7 @@
             margin-bottom: 4px;
             text-align: center;
         }
+
         .sub-title {
             font-size: 1.2rem;
             font-weight: 500;
@@ -57,6 +64,7 @@
             text-align: center;
             margin-bottom: 0;
         }
+
         .info-button {
             position: absolute;
             right: 0;
@@ -76,11 +84,13 @@
             flex-shrink: 0;
             margin-left: 10px;
         }
+
         .info-button:hover {
             background-color: #D8E6FF;
             transform: translateY(-50%) scale(1.05);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
+
         .info-button svg {
             color: #5B86E5;
             width: 20px;
@@ -90,6 +100,7 @@
         p {
             font-size: 0.9rem;
         }
+
         .essay-input-section {
             background-color: #f0f4f8;
             padding: 15px;
@@ -100,12 +111,14 @@
             color: #334155;
             position: relative;
         }
+
         .essay-input-header {
             font-size: 1rem;
             font-weight: 500;
             margin-bottom: 10px;
             text-align: left;
         }
+
         textarea {
             width: 100%;
             height: 300px;
@@ -119,10 +132,12 @@
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
             line-height: 1.5;
         }
+
         textarea:focus {
             border-color: #5B86E5;
             box-shadow: 0 0 0 4px rgba(91, 134, 229, 0.3);
         }
+
         button#gradeButton {
             background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
             color: #ffffff;
@@ -144,6 +159,7 @@
             justify-content: center;
             gap: 10px;
         }
+
         button#gradeButton::before {
             content: '';
             position: absolute;
@@ -151,22 +167,26 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
             z-index: -1;
         }
+
         button#gradeButton:hover::before {
             left: 100%;
         }
+
         button#gradeButton:hover {
             transform: translateY(-6px) scale(1.01);
             box-shadow: 0 12px 30px rgba(65, 105, 225, 0.7);
         }
+
         button#gradeButton:active {
             transform: translateY(-1px);
             box-shadow: 0 5px 15px rgba(91, 134, 229, 0.4);
             background: linear-gradient(135deg, #4169E1 0%, #5B86E5 100%);
         }
+
         button#gradeButton svg {
             width: 25px;
             height: 25px;
@@ -190,15 +210,18 @@
             justify-content: center;
             gap: 6px;
         }
+
         button#settingsButton:hover {
             background-color: #8BC9F0;
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(160, 208, 245, 0.6);
         }
+
         button#settingsButton:active {
             transform: translateY(0);
             box-shadow: 0 2px 6px rgba(160, 208, 245, 0.3);
         }
+
         button#settingsButton svg {
             width: 18px;
             height: 18px;
@@ -232,6 +255,7 @@
             align-items: center;
             width: 100%;
         }
+
         .grade-scale-visual .scale-header {
             display: flex;
             justify-content: space-between;
@@ -244,12 +268,14 @@
             position: relative;
             padding: 0 5px;
         }
+
         .grade-scale-visual .scale-header .label {
             font-size: 1.1em;
             z-index: 1;
             background-color: #E6F0FF;
             padding: 0 5px;
         }
+
         .grade-scale-visual .scale-header .arrow-line {
             position: absolute;
             top: 50%;
@@ -260,6 +286,7 @@
             transform: translateY(-50%);
             z-index: 0;
         }
+
         .grade-scale-visual .scale-header .arrow {
             display: none;
         }
@@ -275,6 +302,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+
         .grade-scale-visual .grade-row::-webkit-scrollbar {
             display: none;
         }
@@ -290,9 +318,11 @@
             margin: 0;
             flex-grow: 1;
             text-align: center;
-            /* Added min-width for better mobile display */
-            min-width: 30px; 
+            /* Default min-width for all screens. Adjusted in media queries for responsiveness. */
+            min-width: 50px;
+            /* Base min-width */
         }
+
         .grade-scale-visual .arrow {
             display: none;
         }
@@ -303,12 +333,14 @@
             justify-content: center;
             margin-bottom: 20px;
         }
+
         .detailed-grades-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 12px;
             margin-bottom: 30px;
         }
+
         .grade-item {
             background: linear-gradient(135deg, #E6F0FF 0%, #D8E6FF 100%);
             padding: 15px 10px;
@@ -325,6 +357,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .grade-item::before {
             content: '';
             position: absolute;
@@ -338,25 +371,30 @@
             transform: scale(0);
             border-radius: 50%;
         }
+
         .grade-item:hover::before {
             transform: scale(2);
         }
+
         .grade-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.09);
         }
+
         .grade-label {
             font-size: 0.8rem;
             color: #4A5568;
             margin-bottom: 3px;
             font-weight: 600;
         }
+
         .grade-value {
             font-size: 2rem;
             font-weight: 800;
             color: #333333;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
         }
+
         .overall-grade-item {
             min-width: 180px;
             padding: 20px 15px;
@@ -364,20 +402,25 @@
             color: #ffffff;
             box-shadow: 0 7px 20px rgba(91, 134, 229, 0.4);
         }
+
         .overall-grade-item .grade-label {
             color: #e0e0e0;
         }
+
         .overall-grade-item .grade-value {
             font-size: 2.5rem;
             color: #ffffff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
         }
+
         .show-details-button {
             display: none;
         }
+
         .model-answer-section {
             display: none;
         }
+
         .feedback-section {
             background-color: #ffffff;
             padding: 20px;
@@ -387,9 +430,11 @@
             box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease-in-out;
         }
+
         .feedback-section:hover {
-             box-shadow: 0 7px 18px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.08);
         }
+
         .feedback-section h3 {
             font-size: 1.15rem;
             font-weight: 700;
@@ -400,16 +445,20 @@
             display: flex;
             align-items: center;
         }
+
         /* Restore original checkmark color */
         .feedback-section h3 svg {
             margin-right: 8px;
-            color: #5B86E5; /* Blue */
+            color: #5B86E5;
+            /* Blue */
             width: 20px;
             height: 20px;
         }
+
         /* Yellow icon for Attention section */
         #attentionSection h3 svg {
-            color: #facc15; /* Tailwind yellow-400 */
+            color: #facc15;
+            /* Tailwind yellow-400 */
         }
 
         .feedback-section .section-grade {
@@ -422,6 +471,7 @@
             border-radius: 8px;
             border: 1px solid #C4DAFC;
         }
+
         .feedback-section p {
             font-size: 0.9rem;
             line-height: 1.6;
@@ -430,22 +480,27 @@
             word-wrap: break-word;
             margin-bottom: 0.6em;
         }
+
         .feedback-section p strong {
             margin-left: 0.5em;
         }
+
         .grammar-feedback-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
             margin-bottom: 15px;
         }
-        .grammar-feedback-table th, .grammar-feedback-table td {
+
+        .grammar-feedback-table th,
+        .grammar-feedback-table td {
             padding: 8px 12px;
             border: 1px solid #e2e8f0;
             text-align: left;
             font-size: 0.85rem;
             vertical-align: top;
         }
+
         .grammar-feedback-table th {
             background-color: #F0F4F8;
             color: #4A5568;
@@ -453,20 +508,24 @@
             white-space: nowrap;
             width: 25%;
         }
+
         .grammar-feedback-table td {
             background-color: #FFFFFF;
             color: #333333;
         }
+
         .grammar-feedback-table ul {
             list-style: none;
             padding-left: 0;
             margin-bottom: 0;
         }
+
         .grammar-feedback-table li {
             position: relative;
             padding-left: 15px;
             margin-bottom: 5px;
         }
+
         .grammar-feedback-table li::before {
             content: '•';
             color: #5B86E5;
@@ -474,6 +533,7 @@
             left: 0;
             top: 0;
         }
+
         .grammar-feedback-table li:last-child {
             margin-bottom: 0;
         }
@@ -494,25 +554,30 @@
                 opacity: 0;
                 transform: scale(0.97);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
             }
         }
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
                 opacity: 0.7;
             }
+
             50% {
                 transform: scale(1.02);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 0.7;
             }
         }
+
         .results-fade-in {
             animation: fadeInScale 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
@@ -533,12 +598,14 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             margin-top: 10px;
         }
+
         .loading-indicator svg {
             margin-right: 10px;
             color: #4169E1;
             width: 18px;
             height: 18px;
         }
+
         .error-message {
             text-align: center;
             padding: 18px;
@@ -567,6 +634,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
+
         .modal-content {
             background-color: #ffffff;
             padding: 20px;
@@ -584,18 +652,21 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
         .modal-content h2 {
             font-size: 1.4rem;
             font-weight: 700;
             color: #333333;
             margin-bottom: 15px;
         }
+
         .modal-content p {
             font-size: 0.85rem;
             color: #4A5568;
             line-height: 1.5;
             margin-bottom: 15px;
         }
+
         .terms-box {
             background-color: #f7f7f7;
             border: 1px solid #e0e0e0;
@@ -609,6 +680,7 @@
             line-height: 1.4;
             margin-bottom: 18px;
         }
+
         .modal-button {
             background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
             color: #ffffff;
@@ -623,10 +695,12 @@
             box-shadow: 0 5px 15px rgba(91, 134, 229, 0.4);
             margin-top: auto;
         }
+
         .modal-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 7px 20px rgba(65, 105, 225, 0.5);
         }
+
         .modal-button:active {
             transform: translateY(0);
             box-shadow: 0 3px 10px rgba(91, 134, 229, 0.3);
@@ -639,12 +713,18 @@
             border-radius: 18px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             max-width: 650px;
-            width: 90%; /* Adjusted for better mobile fit */
-            box-sizing: border-box; /* Include padding in width calculation */
-            margin: 15px auto; /* Centered on small screens too */
-            height: auto; /* Allow content to dictate height */
-            max-height: 95vh; /* Max height for modal */
-            overflow-y: auto; /* Allow internal scrolling if content is too tall */
+            width: 90%;
+            /* Adjusted for better mobile fit */
+            box-sizing: border-box;
+            /* Include padding in width calculation */
+            margin: 15px auto;
+            /* Centered on small screens too */
+            height: auto;
+            /* Allow content to dictate height */
+            max-height: 95vh;
+            /* Max height for modal */
+            overflow-y: auto;
+            /* Allow internal scrolling if content is too tall */
             text-align: left;
             position: relative;
             animation: fadeInScale 0.4s ease-out forwards;
@@ -652,6 +732,7 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
         .settings-modal-content h2 {
             font-size: 1.6rem;
             font-weight: 700;
@@ -659,16 +740,19 @@
             margin-bottom: 20px;
             text-align: center;
         }
+
         .settings-section {
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px solid #e0e0e0;
         }
+
         .settings-section:last-child {
             border-bottom: none;
             margin-bottom: 0;
             padding-bottom: 0;
         }
+
         .settings-section h3 {
             font-size: 1.2rem;
             font-weight: 600;
@@ -678,11 +762,13 @@
             align-items: center;
             gap: 6px;
         }
+
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
         }
+
         .checkbox-item {
             display: flex;
             align-items: center;
@@ -691,9 +777,11 @@
             cursor: pointer;
             transition: color 0.2s ease;
         }
+
         .checkbox-item:hover {
             color: #5B86E5;
         }
+
         .checkbox-item input[type="checkbox"] {
             margin-right: 6px;
             width: 18px;
@@ -702,10 +790,12 @@
             border-radius: 5px;
             flex-shrink: 0;
         }
+
         .checkbox-item input[type="checkbox"]:checked {
             background-color: #5B86E5;
             border-color: #5B86E5;
         }
+
         .checkbox-item input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
@@ -717,6 +807,7 @@
             border-width: 0 1.5px 1.5px 0;
             transform: translate(-50%, -50%) rotate(45deg);
         }
+
         .settings-textarea {
             width: 100%;
             height: 100px;
@@ -726,31 +817,37 @@
             font-size: 0.9rem;
             resize: vertical;
         }
+
         .settings-input-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
             margin-bottom: 15px;
         }
+
         .settings-input-group label {
             font-size: 0.9rem;
             font-weight: 500;
             color: #4A5568;
         }
+
         /* Word count type specific inputs */
         .word-count-input-container {
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         .word-count-input-container input[type="number"] {
-            width: 80px; /* Smaller width for number inputs */
+            width: 80px;
+            /* Smaller width for number inputs */
             padding: 8px;
             border: 1px solid #D1DBE5;
             border-radius: 8px;
             font-size: 0.9rem;
             text-align: center;
         }
+
         .word-count-input-container span {
             font-size: 0.9rem;
             color: #4A5568;
@@ -763,6 +860,7 @@
             gap: 8px;
             margin-top: 12px;
         }
+
         .quick-prompt-button {
             background-color: #E6F0FF;
             color: #4169E1;
@@ -774,13 +872,16 @@
             transition: all 0.2s ease;
             border: 1px solid #C4DAFC;
         }
+
         .quick-prompt-button:hover {
             background-color: #D8E6FF;
             transform: translateY(-1px);
         }
+
         .quick-prompt-button:active {
             transform: translateY(0);
         }
+
         .settings-actions {
             display: flex;
             justify-content: flex-end;
@@ -788,6 +889,7 @@
             margin-top: 25px;
             flex-shrink: 0;
         }
+
         .settings-apply-button {
             background: linear-gradient(135deg, #5B86E5 0%, #4169E1 100%);
             color: #ffffff;
@@ -801,14 +903,17 @@
             border: none;
             box-shadow: 0 4px 12px rgba(91, 134, 229, 0.4);
         }
+
         .settings-apply-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(65, 105, 225, 0.5);
         }
+
         .settings-apply-button:active {
             transform: translateY(0);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
         }
+
         .settings-cancel-button {
             background-color: #CBD5E1;
             color: #4A5568;
@@ -822,11 +927,13 @@
             border: none;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
         .settings-cancel-button:hover {
             background-color: #A0B3C8;
             transform: translateY(-1px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
+
         .settings-cancel-button:active {
             transform: translateY(0);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -842,6 +949,7 @@
             flex-shrink: 0;
             padding-bottom: 10px;
         }
+
         footer.footer p {
             margin-bottom: 5px;
         }
@@ -853,26 +961,32 @@
             padding: 4px 10px;
             margin: 4px;
             border-radius: 8px;
-            background-color: #FFFAE6; /* Light yellow background */
-            border: 1px solid #FFEDCC; /* Slightly darker yellow border */
-            color: #CC8A00; /* Darker yellow text */
+            background-color: #FFFAE6;
+            /* Light yellow background */
+            border: 1px solid #FFEDCC;
+            /* Slightly darker yellow border */
+            color: #CC8A00;
+            /* Darker yellow text */
             font-weight: 600;
             font-size: 0.85rem;
             cursor: help;
-            position: relative; /* For popup positioning */
+            position: relative;
+            /* For popup positioning */
             white-space: nowrap;
             transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
+
         .attention-item-box:hover {
             background-color: #FFF5CC;
             border-color: #FFDDAA;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
         }
 
         /* Popup for attention items */
         .attention-popup {
-            position: fixed; /* Use fixed for robust positioning against screen edges */
+            position: fixed;
+            /* Use fixed for robust positioning against screen edges */
             background-color: #333333;
             color: #ffffff;
             padding: 12px 15px;
@@ -880,14 +994,17 @@
             font-size: 0.8rem;
             line-height: 1.4;
             white-space: normal;
-            width: 250px; /* Fixed width for popup */
+            width: 250px;
+            /* Fixed width for popup */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            z-index: 10000; /* High z-index to be on top */
+            z-index: 10000;
+            /* High z-index to be on top */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
             /* Removed max-height and overflow-y */
         }
+
         /* Arrow styles for popup */
         .attention-popup .popup-arrow {
             position: absolute;
@@ -896,90 +1013,316 @@
             border-style: solid;
             /* Use pixel value set by JS */
             left: var(--arrow-left-position);
-            transform: translateX(-50%); /* Center the arrow on the --arrow-left-position */
+            transform: translateX(-50%);
+            /* Center the arrow on the --arrow-left-position */
         }
+
         /* Arrow pointing down (when popup is above the element) */
         .attention-popup.arrow-down .popup-arrow {
             bottom: -8px;
-            border-width: 8px 8px 0 8px; /* Up-pointing triangle base on bottom */
+            border-width: 8px 8px 0 8px;
+            /* Up-pointing triangle base on bottom */
             border-color: #333333 transparent transparent transparent;
         }
+
         /* Arrow pointing up (when popup is below the element) */
         .attention-popup.arrow-up .popup-arrow {
             top: -8px;
-            border-width: 0 8px 8px 8px; /* Down-pointing triangle base on top */
+            border-width: 0 8px 8px 8px;
+            /* Down-pointing triangle base on top */
             border-color: transparent transparent #333333 transparent;
         }
 
 
         /* Mobile responsive adjustments */
         @media (max-width: 768px) {
-            body { padding: 8px; }
-            .container { padding: 12px; margin-top: 8px; }
-            .header-section { margin-bottom: 20px; }
-            .main-title { font-size: 1.8rem; }
-            .sub-title { font-size: 1rem; }
-            .info-button { width: 30px; height: 30px; }
-            .info-button svg { width: 16px; height: 16px; }
-            p { font-size: 0.85rem; margin-bottom: 15px; }
-            .essay-input-section { padding: 12px; }
-            .essay-input-header { font-size: 0.95rem; }
-            textarea { height: 180px; font-size: 0.85rem; padding: 10px; }
-            .button-group { flex-direction: column; align-items: center; gap: 12px; margin-bottom: 20px; }
-            button#gradeButton { font-size: 1.2rem; padding: 12px 25px; gap: 8px; width: 100%; max-width: 280px; }
-            button#gradeButton svg { width: 20px; height: 20px; }
-            button#settingsButton { font-size: 0.8rem; padding: 8px 15px; gap: 5px; width: 100%; max-width: 180px; }
-            button#settingsButton svg { width: 16px; height: 16px; }
-            .separator { margin: 20px 0; }
-            .grade-scale-visual-container { padding: 10px 5px; margin-bottom: 20px; max-width: 100%; }
-            .grade-scale-visual { font-size: 0.85rem; }
-            .grade-scale-visual .scale-header { max-width: 100%; font-size: 0.9em; }
-            .grade-scale-visual .grade-row { max-width: 100%; justify-content: space-between; padding: 5px 0; }
-            /* Adjusted min-width for mobile for grade boxes to be closer to PC size */
-            .grade-scale-visual span.grade-box { padding: 1px 4px; font-size: 0.85em; margin: 0; min-width: 40px; } /* Increased from 28px */
-            .overall-grade-item { min-width: unset; width: 80%; max-width: 220px; padding: 15px 12px; margin-left: auto; margin-right: auto; }
-            .overall-grade-item .grade-value { font-size: 2.2rem; }
-            .detailed-grades-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
-            .grade-item { padding: 8px 5px; }
-            .grade-label { font-size: 0.7rem; }
-            .grade-value { font-size: 1.3rem; }
-            .feedback-section { padding: 15px; margin-bottom: 15px; }
-            .feedback-section h3 { font-size: 1rem; }
-            .feedback-section h3 svg { width: 18px; height: 18px; }
-            .feedback-section .section-grade { font-size: 0.8rem; padding: 1px 6px; }
-            .feedback-section p { font-size: 0.8rem; }
-            .grammar-feedback-table th, .grammar-feedback-table td { padding: 6px 8px; font-size: 0.75rem; }
-            .grammar-feedback-table th { width: 30%; }
-            .overall-results-summary { gap: 20px; }
-            /* Adjusted settings modal content for mobile to ensure it fits within screen */
-            .settings-modal-content { 
-                padding: 15px; 
-                width: calc(100% - 30px); /* 15px margin on each side */
-                max-width: 650px; /* Keep max-width for larger screens */
-                margin: 15px auto; /* Ensure vertical margin as well */
-                box-sizing: border-box; /* Crucial for width calculation */
+            body {
+                padding: 8px;
             }
-            .modal-content h2, .settings-modal-content h2 { font-size: 1.2rem; }
-            .modal-content p { font-size: 0.75rem; }
-            .terms-box { max-height: 250px; font-size: 0.75rem; }
-            .modal-button, .settings-apply-button, .settings-cancel-button { font-size: 0.9rem; padding: 10px 18px; }
-            .settings-section h3 { font-size: 1rem; }
-            .checkbox-item, .quick-prompt-button { font-size: 0.8rem; }
-            .settings-textarea { font-size: 0.8rem; height: 80px; }
-            .quick-prompt-buttons { gap: 6px; }
-            footer.footer { padding-top: 15px; }
+
+            .container {
+                padding: 12px;
+                margin-top: 8px;
+            }
+
+            .header-section {
+                margin-bottom: 20px;
+            }
+
+            .main-title {
+                font-size: 1.8rem;
+            }
+
+            .sub-title {
+                font-size: 1rem;
+            }
+
+            .info-button {
+                width: 30px;
+                height: 30px;
+            }
+
+            .info-button svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            p {
+                font-size: 0.85rem;
+                margin-bottom: 15px;
+            }
+
+            .essay-input-section {
+                padding: 12px;
+            }
+
+            .essay-input-header {
+                font-size: 0.95rem;
+            }
+
+            textarea {
+                height: 180px;
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            button#gradeButton {
+                font-size: 1.2rem;
+                padding: 12px 25px;
+                gap: 8px;
+                width: 100%;
+                max-width: 280px;
+            }
+
+            button#gradeButton svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            button#settingsButton {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+                gap: 5px;
+                width: 100%;
+                max-width: 180px;
+            }
+
+            button#settingsButton svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .separator {
+                margin: 20px 0;
+            }
+
+            .grade-scale-visual-container {
+                padding: 10px 5px;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
+
+            .grade-scale-visual {
+                font-size: 0.85rem;
+            }
+
+            .grade-scale-visual .scale-header {
+                max-width: 100%;
+                font-size: 0.9em;
+            }
+
+            .grade-scale-visual .grade-row {
+                max-width: 100%;
+                justify-content: space-between;
+                padding: 5px 0;
+            }
+
+            /* UPDATED: Adjust min-width and flex-basis for grade boxes on mobile */
+            .grade-scale-visual span.grade-box {
+                padding: 1px 4px;
+                font-size: 0.85em;
+                margin: 0;
+                min-width: 0;
+                /* Allow shrinking below 50px */
+                flex-basis: 0;
+                /* Allow flex-grow to distribute space equally */
+            }
+
+            .overall-grade-item {
+                box-sizing: border-box;
+                width: calc(100vw - 700px);/* 画面幅から左右合計の余白を引く */
+                max-width: calc(100vw - 400px);
+                margin: 0 auto;
+                /* 中央寄せ */
+                padding: 15px 12px;
+
+            }
+
+            .overall-grade-item .grade-value {
+                font-size: 2.2rem;
+            }
+
+            .detailed-grades-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .grade-item {
+                padding: 8px 5px;
+            }
+
+            .grade-label {
+                font-size: 0.7rem;
+            }
+
+            .grade-value {
+                font-size: 1.3rem;
+            }
+
+            .feedback-section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .feedback-section h3 {
+                font-size: 1rem;
+            }
+
+            .feedback-section h3 svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .feedback-section .section-grade {
+                font-size: 0.8rem;
+                padding: 1px 6px;
+            }
+
+            .feedback-section p {
+                font-size: 0.8rem;
+            }
+
+            .grammar-feedback-table th,
+            .grammar-feedback-table td {
+                padding: 6px 8px;
+                font-size: 0.75rem;
+            }
+
+            .grammar-feedback-table th {
+                width: 30%;
+            }
+
+            .overall-results-summary {
+                gap: 20px;
+            }
+
+            /* Adjusted settings modal content for mobile to ensure it fits within screen */
+            .settings-modal-content {
+                padding: 15px;
+                width: calc(100% - 30px);
+                /* 15px margin on each side */
+                max-width: 650px;
+                /* Keep max-width for larger screens */
+                margin: 15px auto;
+                /* Ensure vertical margin as well */
+                box-sizing: border-box;
+                /* Crucial for width calculation */
+            }
+
+            .modal-content h2,
+            .settings-modal-content h2 {
+                font-size: 1.2rem;
+            }
+
+            .modal-content p {
+                font-size: 0.75rem;
+            }
+
+            .terms-box {
+                max-height: 250px;
+                font-size: 0.75rem;
+            }
+
+            .modal-button,
+            .settings-apply-button,
+            .settings-cancel-button {
+                font-size: 0.9rem;
+                padding: 10px 18px;
+            }
+
+            .settings-section h3 {
+                font-size: 1rem;
+            }
+
+            .checkbox-item,
+            .quick-prompt-button {
+                font-size: 0.8rem;
+            }
+
+            .settings-textarea {
+                font-size: 0.8rem;
+                height: 80px;
+            }
+
+            .quick-prompt-buttons {
+                gap: 6px;
+            }
+
+            footer.footer {
+                padding-top: 15px;
+            }
         }
+
         @media (max-width: 480px) {
-            .detailed-grades-grid { grid-template-columns: 1fr; }
-            .overall-grade-item { width: 90%; }
-            .japanese-sentence-note { font-size: 0.7rem; }
-            .terms-box { max-height: 300px; }
-            .attention-popup { width: 200px; font-size: 0.75rem; padding: 10px; }
-            .attention-item-box { font-size: 0.75rem; padding: 3px 8px; margin: 3px; }
-            .grade-scale-visual span.grade-box { min-width: 40px; } /* Maintained consistency for smaller mobile breakpoint */
+            .detailed-grades-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .overall-grade-item {
+                width: 100%;
+                /* Ensure full width on smaller phones too */
+                max-width: none;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .japanese-sentence-note {
+                font-size: 0.7rem;
+            }
+
+            .terms-box {
+                max-height: 300px;
+            }
+
+            .attention-popup {
+                width: 200px;
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+
+            .attention-item-box {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                margin: 3px;
+            }
+
+            /* UPDATED: Ensure flex-basis: 0 is maintained for the smallest screens */
+            .grade-scale-visual span.grade-box {
+                min-width: 0;
+                flex-basis: 0;
+            }
         }
     </style>
 </head>
+
 <body class="antialiased">
     <div class="container">
         <div class="header-section">
@@ -988,8 +1331,10 @@
                 <p class="sub-title">AI小論文添削サービス</p>
             </div>
             <button id="headerInfoButton" class="info-button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
         </div>
@@ -1006,14 +1351,18 @@
 
         <div class="flex justify-center items-center flex-wrap gap-4 mb-8 button-group">
             <button id="gradeButton">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 AI添削する
             </button>
             <button id="settingsButton">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.942 3.33.83 2.227 2.227a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.942 1.543-.83 3.33-2.227 2.227a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.942-3.33-.83-2.227-2.227a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.942-1.543.83-3.33 2.227-2.227a1.724 1.724 0 002.573-1.066z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.942 3.33.83 2.227 2.227a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.942 1.543-.83 3.33-2.227 2.227a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.942-3.33-.83-2.227-2.227a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.942-1.543.83-3.33 2.227-2.227a1.724 1.724 0 002.573-1.066z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 詳細設定
@@ -1050,32 +1399,38 @@
             </div>
 
             <div id="overallFeedbackSection" class="feedback-section hidden">
-                </div>
+            </div>
 
             <div id="attentionSection" class="feedback-section hidden bg-yellow-50 border-yellow-200 text-yellow-800">
                 <h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     注意
                 </h3>
                 <div id="attentionList" class="flex flex-wrap justify-start items-center">
-                    </div>
+                </div>
             </div>
 
-            <div class="text-xl font-semibold text-gray-700 mb-5 text-center" style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 20px;">詳細な講評</div>
+            <div class="text-xl font-semibold text-gray-700 mb-5 text-center"
+                style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 20px;">詳細な講評</div>
 
             <div class="detailed-grades-grid" id="detailedGradeArea">
-                </div>
+            </div>
 
             <div id="remainingFeedbackArea">
-                </div>
+            </div>
         </div>
 
         <div id="loading" class="hidden loading-indicator">
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
             </svg>
             添削中...少々お待ちください。
         </div>
@@ -1108,7 +1463,8 @@
                     <strong>第2条（免責事項）</strong><br>
                     1. 本サービスが提供するAI添削結果は、入力された文章に基づきAIが生成したものであり、その内容の正確性、完全性、信頼性、有用性、特定の目的への適合性について、いかなる保証も行いません。<br>
                     2. AIの特性上、添削結果に誤り、不適切な表現、またはユーザーの意図と異なる内容が含まれる可能性があります。ユーザーはこれを理解し、自身の判断と責任において本サービスを利用するものとします。<br>
-                    3. 本サービスのご利用により生じた、いかなる損害についても、当方は一切の責任を負いません。ユーザーは、本サービスを利用したことにより第三者との間で紛争が生じた場合、自己の責任と費用においてこれを解決するものとします。<br>
+                    3.
+                    本サービスのご利用により生じた、いかなる損害についても、当方は一切の責任を負いません。ユーザーは、本サービスを利用したことにより第三者との間で紛争が生じた場合、自己の責任と費用においてこれを解決するものとします。<br>
                     4. 本サービスは、システムの障害、通信環境の悪化、メンテナンス等により、事前の通知なく一時的に中断または停止されることがあります。これによりユーザーに生じた損害についても、当方は責任を負いません。
                 </p>
                 <p>
@@ -1143,13 +1499,16 @@
             <h2>詳細設定</h2>
 
             <div class="settings-section">
-                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>文字数指定</h3>
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>文字数指定</h3>
                 <div class="settings-input-group">
                     <div class="flex items-center space-x-4 mb-4">
                         <label class="inline-flex items-center">
-                            <input type="radio" name="wordCountOption" value="none" class="form-radio text-blue-600" checked>
+                            <input type="radio" name="wordCountOption" value="none" class="form-radio text-blue-600"
+                                checked>
                             <span class="ml-2 text-gray-700">なし</span>
                         </label>
                         <label class="inline-flex items-center">
@@ -1164,13 +1523,16 @@
 
                     <div id="wordCountInputContainer" class="flex flex-col gap-4">
                         <div id="aboutInputGroup" class="word-count-input-container hidden">
-                            <input type="number" id="designatedWordCountAbout" placeholder="800" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="number" id="designatedWordCountAbout" placeholder="800" min="100" step="100"
+                                class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <span>程度</span>
                         </div>
                         <div id="rangeInputGroup" class="flex items-center gap-2 hidden">
-                            <input type="number" id="designatedWordCountMin" placeholder="400" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="number" id="designatedWordCountMin" placeholder="400" min="100" step="100"
+                                class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <span>以上</span>
-                            <input type="number" id="designatedWordCountMax" placeholder="800" min="100" step="100" class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="number" id="designatedWordCountMax" placeholder="800" min="100" step="100"
+                                class="w-24 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <span>以下</span>
                         </div>
                     </div>
@@ -1178,19 +1540,25 @@
             </div>
 
             <div class="settings-section">
-                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>問題文</h3>
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>問題文</h3>
                 <div class="settings-input-group">
-                    <textarea id="questionTextInput" class="settings-textarea" placeholder="ここに問題文を入力してください（例: 環境問題についてあなたの意見を述べなさい。）"></textarea>
+                    <textarea id="questionTextInput" class="settings-textarea"
+                        placeholder="ここに問題文を入力してください（例: 環境問題についてあなたの意見を述べなさい。）"></textarea>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>AIに指示する（プロンプト）</h3>
-                <textarea id="customPromptInput" class="settings-textarea" placeholder="AIへの追加指示を入力してください（例：○○大学の入試小論文です）"></textarea>
+                <h3><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>AIに指示する（プロンプト）</h3>
+                <textarea id="customPromptInput" class="settings-textarea"
+                    placeholder="AIへの追加指示を入力してください（例：○○大学の入試小論文です）"></textarea>
                 <div class="quick-prompt-buttons">
                     <button class="quick-prompt-button" data-prompt-text="これは大学入試の小論文です。">大学入試</button>
                     <button class="quick-prompt-button" data-prompt-text="これはビジネス文書の草稿です。">ビジネス文書</button>
@@ -1243,7 +1611,7 @@
 
             const questionTextInput = document.getElementById('questionTextInput');
             const charCountDisplay = document.getElementById('charCount');
-            
+
             const wordCountOptions = document.querySelectorAll('input[name="wordCountOption"]');
             const aboutInputGroup = document.getElementById('aboutInputGroup');
             const designatedWordCountAbout = document.getElementById('designatedWordCountAbout');
@@ -1311,7 +1679,7 @@
             if (localStorage.getItem(AGREED_KEY) !== 'true') {
                 disclaimerModal.classList.remove('hidden');
             }
-            
+
             agreeButton.addEventListener('click', () => {
                 localStorage.setItem(AGREED_KEY, 'true');
                 disclaimerModal.classList.add('hidden');
@@ -1361,7 +1729,7 @@
                 if (good_points && good_points.trim() !== '') {
                     content += `<p>・<strong>良かった点</strong><br>${good_points}</p>`;
                 }
-                
+
                 if (mistakes && mistakes.trim() !== '') {
                     content += `<p>・<strong>間違っている点</strong><br>${mistakes}</p>`;
                 }
@@ -1457,7 +1825,7 @@
                 // Ensure arrow stays within popup boundaries (e.g., 10px from edges)
                 const arrowMarginFromPopupEdge = 15; // px
                 let finalArrowPosition = Math.max(arrowMarginFromPopupEdge, Math.min(globalAttentionPopup.offsetWidth - arrowMarginFromPopupEdge, arrowRelativeLeft));
-                
+
                 globalAttentionPopup.style.setProperty('--arrow-left-position', `${finalArrowPosition}px`);
 
 
@@ -1504,7 +1872,7 @@
                 designatedWordCountAbout.value = currentSettings.designatedWordCountAbout;
                 designatedWordCountMin.value = currentSettings.designatedWordCountMin;
                 designatedWordCountMax.value = currentSettings.designatedWordCountMax;
-                
+
                 questionTextInput.value = currentSettings.questionText;
                 customPromptInput.value = currentSettings.customPrompt;
 
@@ -1715,10 +2083,10 @@
                                                     "improvements": { "type": "STRING" },
                                                     "mistakes": { "type": "STRING" },
                                                     // Removed "suggestions" from schema for overall feedback
-                                                    "content_feedback": { "type": "STRING" } 
+                                                    "content_feedback": { "type": "STRING" }
                                                 },
                                                 // Updated propertyOrdering to reflect removal of suggestions
-                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "content_feedback"] 
+                                                "propertyOrdering": ["good_points", "mistakes", "improvements", "content_feedback"]
                                             },
                                             "understanding": {
                                                 "type": "OBJECT",
@@ -1816,7 +2184,7 @@
 
                         let minCount = isNaN(parseInt(minCountInput, 10)) ? 0 : parseInt(minCountInput, 10);
                         let maxCount = isNaN(parseInt(maxCountInput, 10)) ? Infinity : parseInt(maxCountInput, 10);
-                        
+
                         let issue = false;
                         let excerptText = '';
 
@@ -1872,8 +2240,8 @@
                         overallFeedback.mistakes,
                         overallFeedback.improvements,
                         // Pass null for suggestions to remove it from overall feedback
-                        null, 
-                        overallFeedback.content_feedback 
+                        null,
+                        overallFeedback.content_feedback
                     );
                     overallFeedbackSection.classList.remove('hidden');
 
@@ -1927,7 +2295,7 @@
                     } else {
                         attentionSection.classList.add('hidden');
                     }
-                    
+
                     let detailedGradesHtml = '';
                     let remainingFeedbackHtml = '';
 
@@ -1991,4 +2359,5 @@
         });
     </script>
 </body>
+
 </html>
